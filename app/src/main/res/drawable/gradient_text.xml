@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient android:startColor="#8E24AA"
+    android:endColor="#090908"
+    android:angle="90" /> <!-- Ángulo del degradado (90 para vertical) -->
+</shape>
