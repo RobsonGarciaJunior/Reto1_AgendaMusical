@@ -13,13 +13,13 @@ import retrofit2.http.Path
 interface APIInterface {
 
     @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: Integer): Response<List<User>>
+    suspend fun getUser(@Path("id") id: Int): Response<List<User>>
 
     @PUT("users/{id}")
-    suspend fun updateUser(@Path("id") id: Int, @Body user: User) : Response<Integer>
+    suspend fun updateUser(@Path("id") id: Int, @Body user: User) : Response<Int>
 
     @POST("users")
-    suspend fun createUser(@Body user: User) : Response<Integer>
+    suspend fun createUser(@Body user: User) : Response<Int>
 
     @DELETE("users/{id}")
     suspend fun deleteUser(@Path("id") id: Int) : Response<Void>
@@ -43,8 +43,8 @@ interface APIInterface {
     suspend fun createSong(@Body song: Song) : Response<Int>
 
     @PUT("songs/{id}")
-    suspend fun updateSong(@Path("id") id: Int, @Body song: Song) : Response<Integer>
+    suspend fun updateSong(@Path("id") id: Int, @Body song: Song) : Response<Int>
 
     @DELETE("songs/{id}")
-    suspend fun deleteSong(@Path("id") id: Int) : Response<Integer>
+    suspend fun deleteSong(@Path("id") id: Int) : Response<Int>
 }

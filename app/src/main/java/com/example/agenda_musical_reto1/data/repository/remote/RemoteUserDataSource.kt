@@ -5,7 +5,7 @@ import com.example.agenda_musical_reto1.data.User
 import com.example.agenda_musical_reto1.data.repository.UserRepository
 
 class RemoteUserDataSource: BaseDataSource(), UserRepository {
-    override suspend fun getUserById(id: Integer) = getResult {
+    override suspend fun getUserById(id: Int) = getResult {
         RetrofitClient.apiInterface.getUser(id)
     }
 

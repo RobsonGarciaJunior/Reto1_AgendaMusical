@@ -15,33 +15,62 @@ import kotlinx.coroutines.withContext
 
 class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
 
-    private val _users = MutableLiveData<Resource<List<User>>>()
-    val users: LiveData<Resource<List<User>>> get() = _users
+    private val _user = MutableLiveData<Resource<User>>()
+    val user: LiveData<Resource<User>> get() = _user
 
-    private val _created = MutableLiveData<Resource<Integer>>()
-    val created: LiveData<Resource<Integer>> get() = _created
+    private val _created = MutableLiveData<Resource<Int>>()
+    val created: LiveData<Resource<Int>> get() = _created
 
-    private suspend fun getUserFromRepository(id: Integer) : Resource<List<User>>{
+    private val _updated = MutableLiveData<Resource<Int>>()
+    val updated: LiveData<Resource<Int>> get() = _updated
+
+    private val _deleted = MutableLiveData<Resource<Int>>()
+    val deleted: LiveData<Resource<Int>> get() = _deleted
+
+
+
+    private suspend fun getUserById(id: Int) : Resource<User>{
         return withContext(Dispatchers.IO){
             userRepository.getUserById(id)
         }
     }
-
-    fun onUserRegister(idUser: Int, name: String, surname: String, email: String, password: String) {
-        val newUser = User(idUser, name, surname, email, password)
+    fun onUserRegister(name: String, surname: String, email: String, password: String) {
+        val newUser = User(name, surname, email, password)
         viewModelScope.launch {
             _created.value = createNewUser(newUser)
         }
     }
-
-    private suspend fun createNewUser(user: User): Resource<Integer> {
+    private suspend fun createNewUser(user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
             userRepository.createUser(user)
         }
     }
-    class SongViewModelFactory(private val userRepository: UserRepository): ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-            return UserViewModel(userRepository) as T
+    fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
+        val user = User(idUser, name, surname, email, password)
+        viewModelScope.launch {
+            _updated.value = updateUser(idUser, user)
         }
+    }
+    private suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
+        return withContext(Dispatchers.IO){
+            userRepository.updateUser(idUser, user)
+        }
+    }
+    fun onDeleteUser(id: Int) {
+
+        viewModelScope.launch {
+            _deleted.value = deleteUser(id)
+        }
+    }
+    private suspend fun deleteUser(id: Int): Resource<Int> {
+        return withContext(Dispatchers.IO) {
+            userRepository.deleteUser(id)
+        }
+    }
+}
+@Suppress("UNCHECKED_CAST")
+class UserViewModelFactory(private val userRepository: UserRepository): ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return UserViewModel(userRepository) as T
     }
 }

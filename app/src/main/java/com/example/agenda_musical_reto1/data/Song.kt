@@ -5,10 +5,16 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Song(
-    val id: Int,
+    val id: Int?,
     val title: String,
-    val artist: String,
-    val album: String
-): Parcelable
+    val author: String,
+    val url: String
+): Parcelable {
+    constructor(
+        title: String,
+        author: String,
+        url: String) : this(null, title, author, url){
+    }
+}
 
 

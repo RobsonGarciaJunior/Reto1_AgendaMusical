@@ -18,14 +18,20 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
     private val _songs = MutableLiveData<Resource<List<Song>>>()
     val songs: LiveData<Resource<List<Song>>> get() = _songs
 
-    private val _created = MutableLiveData<Resource<Integer>>()
-    val created: LiveData<Resource<Integer>> get() = _created
+    private val _created = MutableLiveData<Resource<Int>>()
+    val created: LiveData<Resource<Int>> get() = _created
+
+    private val _updated = MutableLiveData<Resource<Int>>()
+    val updated: LiveData<Resource<Int>> get() = _updated
+
+    private val _deleted = MutableLiveData<Resource<Int>>()
+    val deleted: LiveData<Resource<Int>> get() = _deleted
 
     init{
         updateSongList()
     }
 
-    fun updateSongList(){
+    private fun updateSongList(){
         viewModelScope.launch{
             val repoResponse = getSongFromRepository()
             _songs.value = repoResponse
@@ -44,14 +50,38 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
         }
     }
 
-    private suspend fun createNewSong(song: Song): Resource<Integer> {
+    private suspend fun createNewSong(song: Song): Resource<Int> {
         return withContext(Dispatchers.IO){
             songRepository.createSong(song)
         }
     }
-    class SongViewModelFactory(private val songRepository: SongRepository): ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-            return SongViewModel(songRepository) as T
+    fun onSongUpdate(idSong: Int, title: String, author: String, url: String) {
+        val song = Song(idSong, title, author, url)
+        viewModelScope.launch {
+            _updated.value = updateSong(idSong, song)
         }
+    }
+    private suspend fun updateSong(idSong: Int, song: Song): Resource<Int> {
+        return withContext(Dispatchers.IO){
+            songRepository.updateSong(idSong, song)
+        }
+    }
+    fun onDeleteSong(id: Int) {
+
+        viewModelScope.launch {
+            _deleted.value = deleteSong(id)
+        }
+    }
+    private suspend fun deleteSong(id: Int): Resource<Int> {
+        return withContext(Dispatchers.IO) {
+            songRepository.deleteSong(id)
+        }
+    }
+
+}
+@Suppress("UNCHECKED_CAST")
+class SongViewModelFactory(private val songRepository: SongRepository): ViewModelProvider.Factory{
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return SongViewModel(songRepository) as T
     }
 }
