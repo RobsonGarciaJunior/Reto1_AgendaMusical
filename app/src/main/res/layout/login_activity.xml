@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
-            android:id="@+id/user_label"
+            android:id="@+id/repeat_pass_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/josefin_sans_bold"
@@ -163,6 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="73dp"
             android:text="@string/recuerdame"
+            android:textColor="#FFFFFF"
             android:textSize="20sp" />
     </LinearLayout>
 
