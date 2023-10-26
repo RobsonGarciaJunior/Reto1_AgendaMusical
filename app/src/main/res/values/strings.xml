@@ -10,4 +10,11 @@
     <string name="surname">Apellido</string>
     <string name="name">Nombre</string>
     <string name="repeat_password">Repetir Contraseña</string>
+    <string name="all_list">Todas las canciones</string>
+    <string name="favorites_list">Mis canciones favoritas</string>
+    <string name="old_password">Antigua Contraseña</string>
+    <string name="repeat_new_password">Repetir Nueva Contraseña</string>
+    <string name="new_password">Nueva Contraseña</string>
+    <string name="change_password">Restablecer Contraseña</string>
+
 </resources>
