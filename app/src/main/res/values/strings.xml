@@ -16,5 +16,7 @@
     <string name="repeat_new_password">Repetir Nueva Contraseña</string>
     <string name="new_password">Nueva Contraseña</string>
     <string name="change_password">Restablecer Contraseña</string>
+    <string name="delete_account">Eliminar Cuenta</string>
+    <string name="logout">Cerrar Sesión</string>
 
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:background">@drawable/ic_spinner_background</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+
+</resources>
