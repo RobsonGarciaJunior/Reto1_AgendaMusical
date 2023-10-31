@@ -36,7 +36,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/menuSpinner"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"
@@ -59,7 +59,7 @@
             app:srcCompat="@drawable/main_logo" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/configButton"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"

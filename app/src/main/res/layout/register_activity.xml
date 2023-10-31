@@ -148,7 +148,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button3"
+        app:layout_constraintTop_toBottomOf="@+id/login_button_register"
         app:srcCompat="@drawable/logo_alt" />
 
     <LinearLayout
@@ -166,7 +166,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/menuSpinner"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"
@@ -188,7 +188,7 @@
             app:srcCompat="@drawable/main_logo" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/configButton"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"
@@ -207,7 +207,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/login_button3"
+        app:layout_constraintBottom_toTopOf="@+id/login_button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_password">
@@ -234,7 +234,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/login_button3"
+        android:id="@+id/login_button_register"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="16dp"

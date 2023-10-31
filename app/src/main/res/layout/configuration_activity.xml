@@ -36,7 +36,7 @@
         tools:ignore="RtlSymmetry">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/menuSpinner"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"
@@ -59,7 +59,7 @@
             app:srcCompat="@drawable/main_logo" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/configButton"
             android:layout_width="50dp"
             android:layout_height="69dp"
             android:layout_gravity="center"
@@ -80,141 +80,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
+
         <Button
-            android:id="@+id/change_password_button"
-            android:layout_width="354dp"
-            android:layout_height="79dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginBottom="32dp"
-            android:backgroundTint="#D8573061"
-            android:text="@string/change_password"
+            android:id="@+id/deleteAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginBottom="82dp"
+            android:backgroundTint="#470605"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="@string/delete_account"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_repeat_password" />
+            app:layout_constraintTop_toBottomOf="@+id/sessionButton" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
+        <Button
+            android:id="@+id/sessionButton"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginBottom="120dp"
+            android:backgroundTint="#D8573061"
             android:fontFamily="@font/josefin_sans_bold"
-            android:text="¡Bienvenido/a Usuario!"
-            android:textAlignment="center"
-            android:textColor="#F3F3F3"
-            android:textColorHighlight="#FAFAFA"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toTopOf="@+id/layout_old_password"
+            android:text="@string/logout"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resetPasswordButton" />
+
+        <Button
+            android:id="@+id/resetPasswordButton"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginBottom="41dp"
+            android:backgroundTint="#D8573061"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="@string/change_password"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/sessionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/layout_repeat_password"
-            android:layout_width="380dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/change_password_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_password">
-
-            <TextView
-                android:id="@+id/repeat_pass_label"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:fontFamily="@font/josefin_sans_bold"
-                android:text="@string/repeat_new_password"
-                android:textColor="#FFFFFF"
-                android:textFontWeight="@integer/material_motion_duration_long_2"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/password_repeat_register_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/textview_background"
-                android:ems="10"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_password"
-            android:layout_width="380dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/layout_repeat_password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_old_password">
-
-            <TextView
-                android:id="@+id/pass_label"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:fontFamily="@font/josefin_sans_bold"
-                android:text="@string/new_password"
-                android:textColor="#FFFFFF"
-                android:textFontWeight="@integer/material_motion_duration_long_2"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/password_text_register"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/textview_background"
-                android:ems="10"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_old_password"
-            android:layout_width="380dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="32dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/layout_password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-            <TextView
-                android:id="@+id/old_password_label"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:fontFamily="@font/josefin_sans_bold"
-                android:text="@string/old_password"
-                android:textColor="#FFFFFF"
-                android:textFontWeight="@integer/material_motion_duration_long_2"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/old_password_Text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/textview_background"
-                android:ems="10"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
