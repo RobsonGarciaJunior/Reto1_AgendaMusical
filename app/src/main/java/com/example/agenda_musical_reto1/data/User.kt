@@ -10,13 +10,13 @@ data class User(
     val surname: String,
     val email: String,
     val password: String,
-): Parcelable{
+) : Parcelable {
     constructor(
         name: String,
         surname: String,
         email: String,
         password: String,
-    ): this(null, name, surname, email, password){
-
+    ) : this(null, name, surname, email, password) {
+        
     }
 }
