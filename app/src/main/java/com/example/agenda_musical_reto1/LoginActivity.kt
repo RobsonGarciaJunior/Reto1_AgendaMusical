@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.TextView
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,6 +12,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.login_activity)
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        findViewById<TextView>(R.id.register_connection).setOnClickListener() {
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
         }
