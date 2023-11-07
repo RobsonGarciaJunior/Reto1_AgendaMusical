@@ -71,6 +71,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation ("androidx.activity:activity-ktx:1.2.3")
+    implementation ("androidx.fragment:fragment-ktx:1.3.3")
 
     // ADD retrofit + gson para la conversion de strings en json a objetos y viceversa
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
