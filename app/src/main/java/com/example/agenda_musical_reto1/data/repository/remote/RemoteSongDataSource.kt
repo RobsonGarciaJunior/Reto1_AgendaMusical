@@ -1,9 +1,9 @@
 package com.example.agenda_musical_reto1.data.repository.remote
 
 import com.example.agenda_musical_reto1.data.Song
-import com.example.agenda_musical_reto1.data.repository.SongRepository
+import com.example.agenda_musical_reto1.data.repository.CommonSongRepository
 
-class RemoteSongDataSource: BaseDataSource(), SongRepository {
+class RemoteSongDataSource: BaseDataSource(), CommonSongRepository {
     override suspend fun getSongs() = getResult {
         RetrofitClient.apiInterface.getSongs()
     }

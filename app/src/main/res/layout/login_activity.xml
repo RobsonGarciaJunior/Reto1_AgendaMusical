@@ -138,7 +138,7 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="353dp"
-        android:layout_height="151dp"
+        android:layout_height="171dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
@@ -153,18 +153,50 @@
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="79dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="#D8573061"
             android:fontFamily="@font/josefin_sans_bold"
             android:text="@string/iniciar_sesion"
             android:textSize="24sp" />
 
+        <LinearLayout
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp">
+
+            <TextView
+                android:id="@+id/register_connection_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/label_connection_register"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/register_connection"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:paddingLeft="5dp"
+                android:text="@string/here"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
         <CheckBox
             android:id="@+id/remember_me"
-            android:layout_width="match_parent"
-            android:layout_height="73dp"
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/josefin_sans_bold"
             android:text="@string/recuerdame"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

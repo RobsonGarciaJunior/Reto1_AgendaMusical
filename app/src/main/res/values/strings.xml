@@ -6,7 +6,6 @@
     <string name="password">Contraseña</string>
     <string name="register">Registrarse</string>
     <string name="guest_mode">Continuar como Invitado</string>
-    <string name="click_here">Aqui</string>
     <string name="surname">Apellido</string>
     <string name="name">Nombre</string>
     <string name="repeat_password">Repetir Contraseña</string>
@@ -18,5 +17,8 @@
     <string name="change_password">Restablecer Contraseña</string>
     <string name="delete_account">Eliminar Cuenta</string>
     <string name="logout">Cerrar Sesión</string>
+    <string name="label_login_connection">¿Ya tienes cuenta? Inicia Sesión</string>
+    <string name="here">Aquí</string>
+    <string name="label_connection_register">¿No tienes cuenta? Registrate</string>
 
 </resources>

@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.Song
-import com.example.agenda_musical_reto1.data.repository.SongRepository
+import com.example.agenda_musical_reto1.data.repository.CommonSongRepository
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
+class SongViewModel (private val commonSongRepository: CommonSongRepository) : ViewModel(){
 
     private val _songs = MutableLiveData<Resource<List<Song>>>()
     val songs: LiveData<Resource<List<Song>>> get() = _songs
@@ -39,7 +39,7 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
     }
     private suspend fun getSongFromRepository() : Resource<List<Song>>{
         return withContext(Dispatchers.IO){
-            songRepository.getSongs()
+            commonSongRepository.getSongs()
         }
     }
 
@@ -52,7 +52,7 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
 
     private suspend fun createNewSong(song: Song): Resource<Int> {
         return withContext(Dispatchers.IO){
-            songRepository.createSong(song)
+            commonSongRepository.createSong(song)
         }
     }
     fun onSongUpdate(idSong: Int, title: String, author: String, url: String) {
@@ -63,7 +63,7 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
     }
     private suspend fun updateSong(idSong: Int, song: Song): Resource<Int> {
         return withContext(Dispatchers.IO){
-            songRepository.updateSong(idSong, song)
+            commonSongRepository.updateSong(idSong, song)
         }
     }
     fun onDeleteSong(id: Int) {
@@ -74,14 +74,13 @@ class SongViewModel (private val songRepository: SongRepository) : ViewModel(){
     }
     private suspend fun deleteSong(id: Int): Resource<Int> {
         return withContext(Dispatchers.IO) {
-            songRepository.deleteSong(id)
+            commonSongRepository.deleteSong(id)
         }
     }
 
 }
-@Suppress("UNCHECKED_CAST")
-class SongViewModelFactory(private val songRepository: SongRepository): ViewModelProvider.Factory{
+class SongViewModelFactory(private val commonSongRepository: CommonSongRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return SongViewModel(songRepository) as T
+        return SongViewModel(commonSongRepository) as T
     }
 }
