@@ -94,7 +94,7 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:paddingStart="10dp"
-            android:text="@string/click_here"
+            android:text="@string/here"
             android:textColor="#FAFAFA"
             android:textColorLink="#9A4D4D"
             android:textSize="24sp"

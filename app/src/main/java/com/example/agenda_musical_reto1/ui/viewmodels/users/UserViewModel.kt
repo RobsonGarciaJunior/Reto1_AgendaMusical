@@ -29,12 +29,12 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(), 
 
 
 
-    override suspend fun getUserById(id: Int) : Resource<User>{
-        return withContext(Dispatchers.IO){
-            userRepository.getUserById(id)
-        }
-    }
-    override fun onUserRegister(name: String, surname: String, email: String, password: String) {
+//    private suspend fun getUserById(id: Int) : Resource<User>{
+//        return withContext(Dispatchers.IO){
+//            userRepository.getUserById(id)
+//        }
+//    }
+    fun onUserRegister(name: String, surname: String, email: String, password: String) {
         val newUser = User(name, surname, email, password)
         viewModelScope.launch {
             _created.value = createNewUser(newUser)
@@ -56,17 +56,17 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(), 
             userRepository.updateUser(idUser, user)
         }
     }
-    override fun onDeleteUser(id: Int) {
-
-        viewModelScope.launch {
-            _deleted.value = deleteUser(id)
-        }
-    }
-    override suspend fun deleteUser(id: Int): Resource<Int> {
-        return withContext(Dispatchers.IO) {
-            userRepository.deleteUser(id)
-        }
-    }
+//    fun onDeleteUser(id: Int) {
+//
+//        viewModelScope.launch {
+//            _deleted.value = deleteUser(id)
+//        }
+//    }
+//    private suspend fun deleteUser(id: Int): Resource<Int> {
+//        return withContext(Dispatchers.IO) {
+//            userRepository.deleteUser(id)
+//        }
+//    }
 }
 @Suppress("UNCHECKED_CAST")
 class UserViewModelFactory(private val userRepository: UserRepository): ViewModelProvider.Factory{
