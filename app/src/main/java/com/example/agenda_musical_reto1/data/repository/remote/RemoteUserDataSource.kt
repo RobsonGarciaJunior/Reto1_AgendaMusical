@@ -5,9 +5,9 @@ import com.example.agenda_musical_reto1.data.User
 import com.example.agenda_musical_reto1.data.repository.UserRepository
 
 class RemoteUserDataSource: BaseDataSource(), UserRepository {
-//    override suspend fun getUserById(id: Int) = getResult {
-//        RetrofitClient.apiInterface.getUser(id)
-//    }
+    override suspend fun getUserById(id: Int) = getResult {
+        RetrofitClient.apiInterface.getUser(id)
+    }
 
     override suspend fun updateUser(id:Int, user: User ) = getResult{
         RetrofitClient.apiInterface.updateUser(id, user)
@@ -17,9 +17,9 @@ class RemoteUserDataSource: BaseDataSource(), UserRepository {
         RetrofitClient.apiInterface.createUser(user)
     }
 
-//    override suspend fun deleteUser(id: Int) = getResult{
-//        RetrofitClient.apiInterface.deleteUser(id)
-//    }
+    override suspend fun deleteUser(id: Int) = getResult{
+        RetrofitClient.apiInterface.deleteUser(id)
+    }
 
     override suspend fun getFavorites(id: Integer) = getResult {
         RetrofitClient.apiInterface.getFavorites(id)
