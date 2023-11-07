@@ -7,70 +7,68 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.User
-import com.example.agenda_musical_reto1.data.repository.IUserRepository
+import com.example.agenda_musical_reto1.data.repository.UserRepository
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class UserViewModel (private val IUserRepository: IUserRepository) : ViewModel(){
+class UserViewModel (private val userRepository: UserRepository) : ViewModel(), UserViewModelInterface{
 
     private val _user = MutableLiveData<Resource<User>>()
-    val user: LiveData<Resource<User>> get() = _user
+    override val user: LiveData<Resource<User>> get() = _user
 
-    private val _created = MutableLiveData<Resource<Int>>()
-    val created: LiveData<Resource<Int>> get() = _created
+    private val _created = MutableLiveData<Resource<Int>?>()
+    override val created: MutableLiveData<Resource<Int>?> get() = _created
 
-    private val _updated = MutableLiveData<Resource<Int>>()
-    val updated: LiveData<Resource<Int>> get() = _updated
+    private val _updated = MutableLiveData<Resource<Int>?>()
+    override val updated: MutableLiveData<Resource<Int>?> get() = _updated
 
-    private val _deleted = MutableLiveData<Resource<Int>>()
-    val deleted: LiveData<Resource<Int>> get() = _deleted
+    private val _deleted = MutableLiveData<Resource<Int>?>()
+    override val deleted: MutableLiveData<Resource<Int>?> get() = _deleted
+    override suspend fun getUserById(id: Int): Resource<User> {
+        return withContext(Dispatchers.IO){
+            userRepository.getUserById(id)
+        }
+    }
 
-
-
-//    private suspend fun getUserById(id: Int) : Resource<User>{
-//        return withContext(Dispatchers.IO){
-//            userRepository.getUserById(id)
-//        }
-//    }
-    fun onUserRegister(name: String, surname: String, email: String, password: String) {
+override fun onUserRegister(name: String, surname: String, email: String, password: String) {
         val newUser = User(name, surname, email, password)
         viewModelScope.launch {
             _created.value = createNewUser(newUser)
         }
     }
-    private suspend fun createNewUser(user: User): Resource<Int> {
+    override suspend fun createNewUser(user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
-            IUserRepository.createUser(user)
+            userRepository.createUser(user)
         }
     }
-    fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
+    override fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
         val user = User(idUser, name, surname, email, password)
         viewModelScope.launch {
             _updated.value = updateUser(idUser, user)
         }
     }
-    private suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
+    override suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
-            IUserRepository.updateUser(idUser, user)
+            userRepository.updateUser(idUser, user)
         }
     }
-//    fun onDeleteUser(id: Int) {
-//
-//        viewModelScope.launch {
-//            _deleted.value = deleteUser(id)
-//        }
-//    }
-//    private suspend fun deleteUser(id: Int): Resource<Int> {
-//        return withContext(Dispatchers.IO) {
-//            userRepository.deleteUser(id)
-//        }
-//    }
+    override fun onDeleteUser(id: Int) {
+
+        viewModelScope.launch {
+            _deleted.value = deleteUser(id)
+        }
+    }
+     override suspend fun deleteUser(id: Int): Resource<Int> {
+        return withContext(Dispatchers.IO) {
+            userRepository.deleteUser(id)
+        }
+    }
 }
 @Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(private val IUserRepository: IUserRepository): ViewModelProvider.Factory{
+class UserViewModelFactory(private val userRepository: UserRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return UserViewModel(IUserRepository) as T
+        return UserViewModel(userRepository) as T
     }
 }

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
