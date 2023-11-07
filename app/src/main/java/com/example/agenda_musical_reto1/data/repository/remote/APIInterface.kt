@@ -13,7 +13,7 @@ import retrofit2.http.Path
 interface APIInterface {
 
     @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: Int): Response<List<User>>
+    suspend fun getUser(@Path("id") id: Int): Response<User>
 
     @PUT("users/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: User) : Response<Int>
@@ -22,7 +22,7 @@ interface APIInterface {
     suspend fun createUser(@Body user: User) : Response<Int>
 
     @DELETE("users/{id}")
-    suspend fun deleteUser(@Path("id") id: Int) : Response<Void>
+    suspend fun deleteUser(@Path("id") id: Int) : Response<Int>
 
     @GET("users/{id}/favorites")
     suspend fun getFavorites(@Path("id") id: Integer): Response<List<Song>>
