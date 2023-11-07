@@ -13,19 +13,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
+class UserViewModel (private val userRepository: UserRepository) : ViewModel(), UserViewModelInterface{
 
     private val _user = MutableLiveData<Resource<User>>()
-    val user: LiveData<Resource<User>> get() = _user
+    override val user: LiveData<Resource<User>> get() = _user
 
-    private val _created = MutableLiveData<Resource<Int>>()
-    val created: LiveData<Resource<Int>> get() = _created
+    private val _created = MutableLiveData<Resource<Int>?>()
+    override val created: MutableLiveData<Resource<Int>?> get() = _created
 
-    private val _updated = MutableLiveData<Resource<Int>>()
-    val updated: LiveData<Resource<Int>> get() = _updated
+    private val _updated = MutableLiveData<Resource<Int>?>()
+    override val updated: MutableLiveData<Resource<Int>?> get() = _updated
 
-    private val _deleted = MutableLiveData<Resource<Int>>()
-    val deleted: LiveData<Resource<Int>> get() = _deleted
+    private val _deleted = MutableLiveData<Resource<Int>?>()
+    override val deleted: MutableLiveData<Resource<Int>?> get() = _deleted
 
 
 
@@ -40,18 +40,18 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
             _created.value = createNewUser(newUser)
         }
     }
-    private suspend fun createNewUser(user: User): Resource<Int> {
+    override suspend fun createNewUser(user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
             userRepository.createUser(user)
         }
     }
-    fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
+    override fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
         val user = User(idUser, name, surname, email, password)
         viewModelScope.launch {
             _updated.value = updateUser(idUser, user)
         }
     }
-    private suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
+    override suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
             userRepository.updateUser(idUser, user)
         }
