@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.User
-import com.example.agenda_musical_reto1.data.repository.UserRepository
+import com.example.agenda_musical_reto1.data.repository.IUserRepository
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
+class UserViewModel (private val IUserRepository: IUserRepository) : ViewModel(){
 
     private val _user = MutableLiveData<Resource<User>>()
     val user: LiveData<Resource<User>> get() = _user
@@ -42,7 +42,7 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
     }
     private suspend fun createNewUser(user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
-            userRepository.createUser(user)
+            IUserRepository.createUser(user)
         }
     }
     fun onUserUpdate(idUser: Int, name: String, surname: String, email: String, password: String) {
@@ -53,7 +53,7 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
     }
     private suspend fun updateUser(idUser: Int, user: User): Resource<Int> {
         return withContext(Dispatchers.IO){
-            userRepository.updateUser(idUser, user)
+            IUserRepository.updateUser(idUser, user)
         }
     }
 //    fun onDeleteUser(id: Int) {
@@ -69,8 +69,8 @@ class UserViewModel (private val userRepository: UserRepository) : ViewModel(){
 //    }
 }
 @Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(private val userRepository: UserRepository): ViewModelProvider.Factory{
+class UserViewModelFactory(private val IUserRepository: IUserRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return UserViewModel(userRepository) as T
+        return UserViewModel(IUserRepository) as T
     }
 }

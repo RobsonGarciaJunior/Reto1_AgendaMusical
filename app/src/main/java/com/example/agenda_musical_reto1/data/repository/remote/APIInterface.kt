@@ -14,22 +14,20 @@ interface APIInterface {
     
     ////////////////////////////////////////USERS////////////////////////////////////////
     @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: Int): Response<List<User>>
+    suspend fun getUserLogin(@Path("id") id: Int): Response<User>
+    @POST("users")
+    suspend fun registerUser(@Body user: User) : Response<Int>
 
     @PUT("users/{id}")
-    suspend fun updateUser(@Path("id") id: Int, @Body user: User) : Response<Int>
-
-    @POST("users")
-    suspend fun createUser(@Body user: User) : Response<Int>
-
+    suspend fun updateUserPassword(@Path("id") id: Int, @Body user: User) : Response<Int>
     @DELETE("users/{id}")
-    suspend fun deleteUser(@Path("id") id: Int) : Response<Void>
+    suspend fun deleteUser(@Path("id") id: Int) : Response<Int>
 
     @GET("users/{id}/favorites")
-    suspend fun getFavorites(@Path("id") id: Int): Response<List<Song>>
+    suspend fun getAllFavorites(@Path("id") id: Int): Response<List<Song>>
 
     @POST("users/favorites")
-    suspend fun addFavorite(@Body song: Song) : Response<Int>
+    suspend fun createFavorite(@Body song: Song) : Response<Int>
 
     @DELETE("users/{idUser}/favorites/{idFavorite}")
     suspend fun deleteFavorite(@Path("idUser") idUser: Int, @Path("idFavorite") idFavorite: Int) : Response<Int>
