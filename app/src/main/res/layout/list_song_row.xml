@@ -3,18 +3,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/ic_recycler_item_background"
     android:orientation="horizontal"
     android:paddingLeft="2dp"
     android:paddingTop="10dp"
     android:paddingRight="2dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="8dp">
 
     <ImageView
         android:id="@+id/songImage"
         android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:padding="3dp"
-        android:src="@drawable/artworks_000237469700_lm76po_t500x500" />
+        android:padding="3dp"/>
 
     <LinearLayout
         android:layout_width="263dp"
@@ -28,7 +30,6 @@
             android:background="@drawable/ic_west_gradient"
             android:fontFamily="@font/josefin_sans_bold"
             android:padding="5dp"
-            android:text="TextView"
             android:textColor="#FDFCFC"
             android:textSize="24sp" />
 
@@ -39,7 +40,6 @@
             android:background="@drawable/ic_west_gradient"
             android:fontFamily="@font/josefin_sans_bold"
             android:padding="5dp"
-            android:text="TextView"
             android:textColor="#F4EFEF"
             android:textSize="20sp" />
 

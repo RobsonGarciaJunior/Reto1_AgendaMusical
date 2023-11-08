@@ -15,15 +15,18 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.guest_link).setOnClickListener() {
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         findViewById<Button>(R.id.register_button).setOnClickListener() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
         findViewById<Button>(R.id.login_button).setOnClickListener() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

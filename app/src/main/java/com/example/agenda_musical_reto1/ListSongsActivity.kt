@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.databinding.ListSongsActivityBinding
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongAdapter
@@ -40,14 +41,14 @@ class ListSongsActivity : AppCompatActivity() {
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
-        val optionActions = mapOf(
+        mapOf(
             "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
             "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
             "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
         )
 
         Spinner.setupPopupMenu(spinnerButton, this)
-        songAdapter = SongAdapter()
+        songAdapter = SongAdapter(::onSongListClickItem)
         binding.songRecycler.adapter = songAdapter
 
         songViewModel.songs.observe(this, Observer {
@@ -73,6 +74,10 @@ class ListSongsActivity : AppCompatActivity() {
                 }
             }
         })
-
+    }
+    private fun onSongListClickItem(song: Song) {
+        val intent = Intent(this, SongActivity::class.java)
+        intent.putExtra("song", song)
+        startActivity(intent)
     }
 }

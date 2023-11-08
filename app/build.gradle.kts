@@ -49,6 +49,10 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -68,9 +72,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-    implementation ("androidx.activity:activity-ktx:1.2.3")
-    implementation ("androidx.fragment:fragment-ktx:1.3.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.activity:activity-ktx:1.2.3")
+    implementation("androidx.fragment:fragment-ktx:1.3.3")
 
     // ADD retrofit + gson para la conversion de strings en json a objetos y viceversa
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

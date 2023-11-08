@@ -85,45 +85,46 @@
             android:id="@+id/deleteAccountButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginBottom="82dp"
+            android:layout_marginBottom="80dp"
             android:backgroundTint="#470605"
             android:fontFamily="@font/josefin_sans_bold"
             android:text="@string/delete_account"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sessionButton" />
+            app:layout_constraintTop_toBottomOf="@+id/resetPasswordButton" />
 
         <Button
             android:id="@+id/sessionButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="34dp"
             android:backgroundTint="#D8573061"
             android:fontFamily="@font/josefin_sans_bold"
             android:text="@string/logout"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
+            app:layout_constraintBottom_toTopOf="@+id/resetPasswordButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resetPasswordButton" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/resetPasswordButton"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginBottom="41dp"
+            android:layout_marginBottom="120dp"
             android:backgroundTint="#D8573061"
             android:fontFamily="@font/josefin_sans_bold"
             android:text="@string/change_password"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/sessionButton"
+            app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/sessionButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
