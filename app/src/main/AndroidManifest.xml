@@ -35,6 +35,9 @@
             android:name=".SongActivity"
             android:exported="true" />
         <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="true" />
+        <activity
             android:name=".ConfigurationActivity"
             android:exported="true" />
         <activity

@@ -67,7 +67,7 @@
             android:background="#00FFFFFF"
             android:paddingStart="30dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_settings" />
+            app:srcCompat="@drawable/ic_settings"/>
 
     </LinearLayout>
 

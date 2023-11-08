@@ -6,26 +6,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 
-class ConfigurationActivity : AppCompatActivity() {
+class ResetPasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.configuration_activity)
-
+        setContentView(R.layout.change_password_activity)
 
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        findViewById<Button>(R.id.sessionButton).setOnClickListener() {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        findViewById<Button>(R.id.resetPasswordButton).setOnClickListener() {
-            val intent = Intent(this, ResetPasswordActivity::class.java)
             startActivity(intent)
             finish()
         }
