@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.AuthLoginRequest
 import com.example.agenda_musical_reto1.data.AuthUpdatePassword
+import com.example.agenda_musical_reto1.data.LoginResponse
 import com.example.agenda_musical_reto1.data.User
 import com.example.agenda_musical_reto1.data.repository.IUserRepository
+import com.example.agenda_musical_reto1.utils.JWTUtils
 import com.example.agenda_musical_reto1.utils.MyApp
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -19,19 +21,32 @@ import kotlinx.coroutines.withContext
 class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
     UserViewModelInterface {
 
-    private val _user = MutableLiveData<Resource<User>>()
-    override val user: LiveData<Resource<User>> get() = _user
+    private val _user = MutableLiveData<Resource<LoginResponse>?>()
+    override val user: MutableLiveData<Resource<LoginResponse>?> get() = _user
 
     private val _created = MutableLiveData<Resource<Int>?>()
-    override val created: MutableLiveData<Resource<Int>?> get() = _created
+    override val created: LiveData<Resource<Int>?> get() = _created
 
     private val _updated = MutableLiveData<Resource<Int>?>()
-    override val updated: MutableLiveData<Resource<Int>?> get() = _updated
+    override val updated: LiveData<Resource<Int>?> get() = _updated
 
     private val _deleted = MutableLiveData<Resource<Int>?>()
-    override val deleted: MutableLiveData<Resource<Int>?> get() = _deleted
-    override suspend fun getUserLogin(email: String, password: String): Resource<String> {
+    override val deleted: LiveData<Resource<Int>?> get() = _deleted
+
+    override fun onUserLogin(email: String, password: String) {
         val authLoginRequest = AuthLoginRequest(email, password)
+        viewModelScope.launch {
+            val authLoginResponse = getUserLogin(authLoginRequest)
+            //COLOCAMOS EL TOKEN EN EL SHAREDPREFERENCES
+            authLoginResponse.data?.let { MyApp.userPreferences.saveAuthToken(it.accessToken) }
+            //OBTENEMOS EL USUARIO DEL TOKEN
+            val loggedUser: User? = authLoginResponse.data?.let { JWTUtils.decoded(it.accessToken)}
+            //TODO COLOCAR EL USUARIO EN SHAREDPREFERENCES
+            _user.value = getUserLogin(authLoginRequest)
+        }
+    }
+
+    override suspend fun getUserLogin(authLoginRequest: AuthLoginRequest): Resource<LoginResponse> {
         return withContext(Dispatchers.IO) {
             userRepository.getUserLogin(authLoginRequest)
         }

@@ -9,7 +9,7 @@ data class User(
     val name: String,
     val surname: String,
     val email: String,
-    val password: String,
+    val password: String?,
 ) : Parcelable {
     constructor(
         name: String,
@@ -17,6 +17,6 @@ data class User(
         email: String,
         password: String,
     ) : this(null, name, surname, email, password) {
-        
+
     }
 }

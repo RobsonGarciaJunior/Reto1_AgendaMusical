@@ -10,11 +10,11 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) {
-                    return Resource.success(body)
+                return if (body != null) {
+                    Resource.success(body)
                 } else {
                     // podria no devolver datos...
-                    return Resource.success()
+                    Resource.success()
                     // el 204 hay que tratarlo en algun lado. Dara success sin datos
                 }
             }

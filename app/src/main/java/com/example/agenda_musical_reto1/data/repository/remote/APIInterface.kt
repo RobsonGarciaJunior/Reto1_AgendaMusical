@@ -2,22 +2,22 @@ package com.example.agenda_musical_reto1.data.repository.remote
 
 import com.example.agenda_musical_reto1.data.AuthLoginRequest
 import com.example.agenda_musical_reto1.data.AuthUpdatePassword
+import com.example.agenda_musical_reto1.data.LoginResponse
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.DELETE
 import retrofit2.http.Path
 
 interface APIInterface {
 
     ////////////////////////////////////////USERS////////////////////////////////////////
-    //TODO DEBERIA CREAR UN MODELO DE USER QUE TENGA SOLO EMAIL Y PASSWORD Y PASARLO POR AQUI¿?
     @POST("auth/login")
-    suspend fun getUserLogin(@Body authLoginRequest: AuthLoginRequest): Response<String>
+    suspend fun getUserLogin(@Body authLoginRequest: AuthLoginRequest): Response<LoginResponse>
 
     @POST("auth/signup")
     suspend fun registerUser(@Body user: User): Response<Int>
@@ -31,7 +31,6 @@ interface APIInterface {
     @GET("users/me/favorites")
     suspend fun getAllFavorites(): Response<List<Song>>
 
-    //TODO PREGUNTAR SI PASO POR AQUI APENAS EL ID O CREO Y PASO TODO UN OBJETO AL SER UN @BODY
     @POST("users/favorites")
     suspend fun createFavorite(@Body idSong: Int): Response<Int>
 
