@@ -1,36 +1,39 @@
 package com.example.agenda_musical_reto1.data.repository.remote
 
+import com.example.agenda_musical_reto1.data.AuthLoginRequest
+import com.example.agenda_musical_reto1.data.AuthUpdatePassword
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
-import com.example.agenda_musical_reto1.data.repository.UserRepository
+import com.example.agenda_musical_reto1.data.repository.IUserRepository
+import com.example.agenda_musical_reto1.utils.Resource
 
-class RemoteUserDataSource: BaseDataSource(), UserRepository {
-    override suspend fun getUserById(id: Int) = getResult {
-        RetrofitClient.apiInterface.getUser(id)
+class RemoteUserDataSource : BaseDataSource(), IUserRepository {
+    override suspend fun getUserLogin(authLoginRequest: AuthLoginRequest) = getResult {
+        RetrofitClient.apiInterface.getUserLogin(authLoginRequest)
     }
 
-    override suspend fun updateUser(id:Int, user: User ) = getResult{
-        RetrofitClient.apiInterface.updateUser(id, user)
+    override suspend fun registerUser(user: User) = getResult {
+        RetrofitClient.apiInterface.registerUser(user)
     }
 
-    override suspend fun createUser(user: User) = getResult{
-        RetrofitClient.apiInterface.createUser(user)
+    override suspend fun updateUserPassword(authUpdatePassword: AuthUpdatePassword): Resource<Int> = getResult {
+        RetrofitClient.apiInterface.updateUserPassword(authUpdatePassword)
     }
 
-    override suspend fun deleteUser(id: Int) = getResult{
-        RetrofitClient.apiInterface.deleteUser(id)
+    override suspend fun deleteUser() = getResult {
+        RetrofitClient.apiInterface.deleteUser()
     }
 
-    override suspend fun getFavorites(id: Integer) = getResult {
-        RetrofitClient.apiInterface.getFavorites(id)
+    override suspend fun getAllFavorites() = getResult {
+        RetrofitClient.apiInterface.getAllFavorites()
     }
 
-    override suspend fun addFavorite(song: Song) = getResult {
-        RetrofitClient.apiInterface.addFavorite(song)
+    override suspend fun createFavorite(idSong: Int) = getResult {
+        RetrofitClient.apiInterface.createFavorite(idSong)
     }
 
-    override suspend fun deleteFavorite(idUser: Int, idFavorite: Int) = getResult {
-        RetrofitClient.apiInterface.deleteFavorite(idUser, idFavorite)
+    override suspend fun deleteFavorite(idSong: Int) = getResult {
+        RetrofitClient.apiInterface.deleteFavorite(idSong)
     }
 
 }

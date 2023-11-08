@@ -1,38 +1,43 @@
 package com.example.agenda_musical_reto1.data.repository.remote
 
+import com.example.agenda_musical_reto1.data.AuthLoginRequest
+import com.example.agenda_musical_reto1.data.AuthUpdatePassword
+import com.example.agenda_musical_reto1.data.LoginResponse
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.DELETE
 import retrofit2.http.Path
 
 interface APIInterface {
 
-    @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: Int): Response<User>
+    ////////////////////////////////////////USERS////////////////////////////////////////
+    @POST("auth/login")
+    suspend fun getUserLogin(@Body authLoginRequest: AuthLoginRequest): Response<LoginResponse>
 
-    @PUT("users/{id}")
-    suspend fun updateUser(@Path("id") id: Int, @Body user: User) : Response<Int>
+    @POST("auth/signup")
+    suspend fun registerUser(@Body user: User): Response<Int>
 
-    @POST("users")
-    suspend fun createUser(@Body user: User) : Response<Int>
+    @PUT("users/me")
+    suspend fun updateUserPassword(@Body authUpdatePassword: AuthUpdatePassword): Response<Int>
 
-    @DELETE("users/{id}")
-    suspend fun deleteUser(@Path("id") id: Int) : Response<Int>
+    @DELETE("users/me")
+    suspend fun deleteUser(): Response<Int>
 
-    @GET("users/{id}/favorites")
-    suspend fun getFavorites(@Path("id") id: Integer): Response<List<Song>>
+    @GET("users/me/favorites")
+    suspend fun getAllFavorites(): Response<List<Song>>
 
     @POST("users/favorites")
-    suspend fun addFavorite(@Body song: Song) : Response<Integer>
+    suspend fun createFavorite(@Body idSong: Int): Response<Int>
 
-    @DELETE("users/{idUser}/favorites/{idFavorite}")
-    suspend fun deleteFavorite(@Path("idUser") idUser: Int, @Path("idFavorite") idFavorite: Int) : Response<Integer>
+    @DELETE("users/me/favorites/{idSong}")
+    suspend fun deleteFavorite(@Path("idSong") idFavorite: Int): Response<Int>
 
+    ////////////////////////////////////////SONGS////////////////////////////////////////
     @GET("songs")
     suspend fun getSongs(): Response<List<Song>>
 
@@ -40,11 +45,11 @@ interface APIInterface {
     suspend fun getSong(@Path("id") id: Int): Response<Song>
 
     @POST("songs")
-    suspend fun createSong(@Body song: Song) : Response<Int>
+    suspend fun createSong(@Body song: Song): Response<Int>
 
     @PUT("songs/{id}")
-    suspend fun updateSong(@Path("id") id: Int, @Body song: Song) : Response<Int>
+    suspend fun updateSong(@Path("id") id: Int, @Body song: Song): Response<Int>
 
     @DELETE("songs/{id}")
-    suspend fun deleteSong(@Path("id") id: Int) : Response<Int>
+    suspend fun deleteSong(@Path("id") id: Int): Response<Int>
 }
