@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.databinding.ListSongRowBinding
+import com.example.agenda_musical_reto1.utils.YouTubeThumbnailUtil
 
 class SongAdapter(
+    private val onClickListener: (Song) -> Unit
 ) : ListAdapter<Song, SongAdapter.SongViewHolder>(SongDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
@@ -20,6 +22,9 @@ class SongAdapter(
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val song = getItem(position)
         holder.bind(song)
+        holder.itemView.setOnClickListener {
+             onClickListener(song)
+        }
     }
 
     inner class SongViewHolder(private val binding: ListSongRowBinding) :
@@ -27,6 +32,8 @@ class SongAdapter(
         fun bind(song: Song) {
             binding.songName.text = song.title
             binding.artistText.text = song.author
+            YouTubeThumbnailUtil.getYouTubeThumbnailUrl(song.url)
+            YouTubeThumbnailUtil.loadYouTubeThumbnail(binding.root.context, song.url, binding.songImage)
         }
 
     }
