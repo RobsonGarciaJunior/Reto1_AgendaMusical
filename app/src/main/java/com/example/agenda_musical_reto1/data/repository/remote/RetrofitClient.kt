@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val API_URI = "http://10.5.7.190:8065/api/"
+    private const val API_URI = "http://10.5.7.174:8065/api/"
 
     private var client = OkHttpClient.Builder().addInterceptor { chain ->
         val authToken = MyApp.userPreferences.fetchAuthToken()

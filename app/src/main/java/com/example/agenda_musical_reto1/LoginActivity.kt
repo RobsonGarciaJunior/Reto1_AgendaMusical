@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
             userRepository
         )
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
@@ -42,11 +43,18 @@ class LoginActivity : AppCompatActivity() {
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
-        val optionActions = mapOf(
-            "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-            "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
-            "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
-        )
+        val optionActions =
+            mapOf("Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
+                "Todas las Canciones" to {
+                    MenuOptionsHandler.handleMenuOption(
+                        "Todas las Canciones", this
+                    )
+                },
+                "Mis Canciones Favoritas" to {
+                    MenuOptionsHandler.handleMenuOption(
+                        "Mis Canciones Favoritas", this
+                    )
+                })
 
         Spinner.setupPopupMenu(spinnerButton, this)
 
@@ -55,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             val password: String = findViewById<EditText>(R.id.password_text).text.toString()
             userViewModel.onUserLogin(email, password)
         }
-        userViewModel.user.observe(this, Observer{
+        userViewModel.user.observe(this, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
@@ -73,8 +81,6 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            //
         })
     }
 }
