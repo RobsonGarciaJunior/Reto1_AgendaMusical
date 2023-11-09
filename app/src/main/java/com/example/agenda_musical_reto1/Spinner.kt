@@ -5,15 +5,21 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import com.example.agenda_musical_reto1.ListSongsActivity
+import com.example.agenda_musical_reto1.LoginActivity
 import com.example.agenda_musical_reto1.MainMenuActivity
 import com.example.agenda_musical_reto1.R
+import com.example.agenda_musical_reto1.utils.MyApp
 
 object MenuOptionsHandler {
     fun handleMenuOption(option: String, context: Context) {
         val intent = when (option) {
             "Inicio" -> Intent(context, MainMenuActivity::class.java)
             "Todas las Canciones" -> Intent(context, ListSongsActivity::class.java)
-            "Mis Canciones Favoritas" -> Intent(context, ListSongsActivity::class.java)
+            "Mis Canciones Favoritas" -> if (MyApp.userPreferences.getLoggedUser() == null) {
+                Intent(context, LoginActivity::class.java)
+            } else {
+                Intent(context, ListSongsActivity::class.java)
+            }
             else -> null
         }
         intent?.run {
@@ -28,9 +34,9 @@ object MenuOptionsHandler {
 class Spinner {
     companion object {
         fun setupPopupMenu(
-            button: ImageButton,
-            activity: AppCompatActivity,
-            menuOptions: List<String> = listOf("Inicio", "Todas las Canciones", "Mis Canciones Favoritas")
+            button: ImageButton, activity: AppCompatActivity, menuOptions: List<String> = listOf(
+                "Inicio", "Todas las Canciones", "Mis Canciones Favoritas"
+            )
         ) {
             val wrapper = ContextThemeWrapper(activity, R.style.PopupMenuStyle)
             val popupMenu = PopupMenu(wrapper, button)
@@ -43,9 +49,7 @@ class Spinner {
         }
 
         private fun configureMenuOptions(
-            popupMenu: PopupMenu,
-            menuOptions: List<String>,
-            context: Context
+            popupMenu: PopupMenu, menuOptions: List<String>, context: Context
         ) {
             menuOptions.forEach { option ->
                 val menuItem = popupMenu.menu.add(option)
