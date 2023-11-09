@@ -18,13 +18,13 @@
         android:backgroundTint="#D8573061"
         android:text="@string/iniciar_sesion"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/register_button"
+        app:layout_constraintBottom_toTopOf="@+id/register_view_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/register_view_button"
         android:layout_width="354dp"
         android:layout_height="79dp"
         android:layout_marginStart="29dp"
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_button">
+        app:layout_constraintTop_toBottomOf="@+id/register_view_button">
 
         <TextView
             android:id="@+id/guest_text"

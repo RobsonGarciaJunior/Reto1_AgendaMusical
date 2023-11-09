@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<Button>(R.id.register_button).setOnClickListener() {
+        findViewById<Button>(R.id.register_view_button).setOnClickListener() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()
