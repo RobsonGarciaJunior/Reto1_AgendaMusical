@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import com.example.agenda_musical_reto1.utils.MyApp
 
 class ConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.sessionButton).setOnClickListener() {
+            MyApp.userPreferences.unLogUser()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
