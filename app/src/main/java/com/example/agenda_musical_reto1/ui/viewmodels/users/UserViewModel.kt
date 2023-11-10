@@ -12,6 +12,8 @@ import com.example.agenda_musical_reto1.data.LoginResponse
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
 import com.example.agenda_musical_reto1.data.repository.IUserRepository
+import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
+import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
 import com.example.agenda_musical_reto1.utils.JWTUtils
 import com.example.agenda_musical_reto1.utils.MyApp
 import com.example.agenda_musical_reto1.utils.Resource
@@ -36,6 +38,7 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
 
     private val _favoriteSongs = MutableLiveData<Resource<List<Song>>>()
     override val favoriteSongs: LiveData<Resource<List<Song>>> get() = _favoriteSongs
+
     override fun onUserLogin(email: String, password: String) {
         val authLoginRequest = AuthLoginRequest(email, password)
         viewModelScope.launch {
@@ -110,9 +113,7 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(private val userRepository: IUserRepository) :
-    ViewModelProvider.Factory {
+class UserViewModelFactory(private val userRepository: RemoteUserDataSource) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return UserViewModel(userRepository) as T
     }

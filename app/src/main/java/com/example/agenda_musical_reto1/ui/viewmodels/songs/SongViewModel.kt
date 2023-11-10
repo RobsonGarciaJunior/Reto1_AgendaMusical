@@ -30,9 +30,6 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
     private val _deleted = MutableLiveData<Resource<Int>?>()
     override val deleted: MutableLiveData<Resource<Int>?> get() = _deleted
 
-    init{
-        updateSongList()
-    }
 
     override fun updateSongList(){
         viewModelScope.launch{
@@ -42,7 +39,6 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
     }
     override suspend fun getSongFromRepository() : Resource<List<Song>>{
         return withContext(Dispatchers.IO){
-            delay(2000)
             songRepository.getSongs()
         }
     }
@@ -83,7 +79,7 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
     }
 
 }
-class SongViewModelFactory(private val songRepository: RemoteSongDataSource): ViewModelProvider.Factory{
+class SongViewModelFactory(private val songRepository: ISongRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return SongViewModel(songRepository) as T
     }

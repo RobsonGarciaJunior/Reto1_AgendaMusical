@@ -13,6 +13,7 @@ import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
 import com.example.agenda_musical_reto1.databinding.ListSongsActivityBinding
+import com.example.agenda_musical_reto1.databinding.ListSongsFavoritesActivityBinding
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongAdapter
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModelFactory
@@ -20,20 +21,21 @@ import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
 import com.example.agenda_musical_reto1.utils.Resource
 
-class ListSongsActivity : AppCompatActivity() {
+class ListSongsActivityFavorites : AppCompatActivity() {
     private lateinit var songAdapter: SongAdapter
-    private val songRepository = RemoteSongDataSource()
-    private val songViewModel: SongViewModel by viewModels {
-        SongViewModelFactory(
-            songRepository
+
+    private val userRepository = RemoteUserDataSource()
+    private val userViewModel: UserViewModel by viewModels {
+        UserViewModelFactory(
+            userRepository
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        val binding = ListSongsActivityBinding.inflate(layoutInflater)
-        binding.songRecycler.layoutManager = LinearLayoutManager(this)
+        val binding = ListSongsFavoritesActivityBinding.inflate(layoutInflater)
+        binding.songRecyclerFavorites.layoutManager = LinearLayoutManager(this)
 
         setContentView(binding.root)
 
@@ -57,16 +59,16 @@ class ListSongsActivity : AppCompatActivity() {
                 )
             })
 
-
-        songViewModel.updateSongList()
-        //ListObtainer.obtainAllSongList(songViewModel)
+        userViewModel.getFavoriteSongs()
+        //ListObtainer.obtainFavoriteList(userViewModel)
 
         Spinner.setupPopupMenu(spinnerButton, this)
         songAdapter = SongAdapter(::onSongListClickItem)
-        binding.songRecycler.adapter = songAdapter
+        binding.songRecyclerFavorites.adapter = songAdapter
 
-        songViewModel.songs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista total")
+        userViewModel.favoriteSongs.observe(this, Observer {
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista de favs")
+
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
@@ -88,8 +90,6 @@ class ListSongsActivity : AppCompatActivity() {
                 }
             }
         })
-
-
     }
 
     private fun onSongListClickItem(song: Song) {

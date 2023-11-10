@@ -29,7 +29,7 @@ object MenuOptionsHandler {
             "Mis Canciones Favoritas" -> if (MyApp.userPreferences.getLoggedUser() == null) {
                 Intent(context, LoginActivity::class.java)
             } else {
-                Intent(context, ListSongsActivity::class.java).putExtra("actualIntent","Mis Canciones Favoritas")
+                Intent(context, ListSongsActivityFavorites::class.java).putExtra("actualIntent","Mis Canciones Favoritas")
             }
             else -> null
         }

@@ -39,6 +39,9 @@
             android:name=".ResetPasswordActivity"
             android:exported="true" />
         <activity
+            android:name=".ListSongsActivityFavorites"
+            android:exported="true" />
+        <activity
             android:name=".ConfigurationActivity"
             android:exported="true" />
         <activity
