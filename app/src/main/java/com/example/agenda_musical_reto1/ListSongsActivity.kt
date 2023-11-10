@@ -65,17 +65,18 @@ class ListSongsActivity : AppCompatActivity() {
             })
 
         if(intent.extras?.getString("actualIntent").equals("Todas las Canciones")) {
-            ListObtainer.obtainAllSongList(songViewModel)
+        songViewModel.updateSongList()
+        //ListObtainer.obtainAllSongList(songViewModel)
         } else if(intent.extras?.getString("actualIntent").equals("Mis Canciones Favoritas")) {
-            ListObtainer.obtainFavoriteList(userViewModel)
+        userViewModel.getFavoriteSongs()
+        //ListObtainer.obtainFavoriteList(userViewModel)
         }
         Spinner.setupPopupMenu(spinnerButton, this)
         songAdapter = SongAdapter(::onSongListClickItem)
         binding.songRecycler.adapter = songAdapter
 
         songViewModel.songs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista")
-
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista total")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
@@ -99,7 +100,7 @@ class ListSongsActivity : AppCompatActivity() {
         })
 
         userViewModel.favoriteSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista")
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista de favs")
 
             when (it.status) {
                 Resource.Status.SUCCESS -> {
@@ -128,5 +129,6 @@ class ListSongsActivity : AppCompatActivity() {
         val intent = Intent(this, SongActivity::class.java)
         intent.putExtra("song", song)
         startActivity(intent)
+        finish()
     }
 }
