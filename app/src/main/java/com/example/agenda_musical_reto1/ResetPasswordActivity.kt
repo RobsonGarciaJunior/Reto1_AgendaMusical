@@ -56,41 +56,9 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         mapOf(
             "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-            "Todas las Canciones" to {
-                MenuOptionsHandler.handleMenuOption(
-                    "Todas las Canciones",
-                    this
-                )
-            },
-            "Mis Canciones Favoritas" to {
-                MenuOptionsHandler.handleMenuOption(
-                    "Mis Canciones Favoritas",
-                    this
-                )
-            }
+            "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
+            "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
         )
-
-        userViewModel.updated.observe(this, Observer {
-            if (it != null) {
-                when (it.status) {
-                    Resource.Status.SUCCESS -> {
-                        val intent = Intent(this, ConfigurationActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-
-                    Resource.Status.ERROR -> {
-                        findViewById<TextView>(R.id.old_password_Text).error = "Contraseña actual incorrecta"
-                    }
-
-                    Resource.Status.LOADING -> {
-                        // de momento
-                    }
-                }
-            }
-
-            //
-        })
 
         Spinner.setupPopupMenu(spinnerButton, this)
     }
