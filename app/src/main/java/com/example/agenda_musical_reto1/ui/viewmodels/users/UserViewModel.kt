@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.AuthLoginRequest
 import com.example.agenda_musical_reto1.data.AuthUpdatePassword
 import com.example.agenda_musical_reto1.data.LoginResponse
+import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
 import com.example.agenda_musical_reto1.data.repository.IUserRepository
 import com.example.agenda_musical_reto1.utils.JWTUtils
@@ -32,6 +33,9 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
 
     private val _deleted = MutableLiveData<Resource<Int>?>()
     override val deleted: LiveData<Resource<Int>?> get() = _deleted
+
+    private val _favoriteSongs = MutableLiveData<Resource<List<Song>>>()
+    override val favoriteSongs: LiveData<Resource<List<Song>>> get() = _favoriteSongs
 
     override fun onUserLogin(email: String, password: String) {
         val authLoginRequest = AuthLoginRequest(email, password)
@@ -93,11 +97,21 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
             userRepository.deleteUser()
         }
     }
+
+    fun getFavoriteSongs(){
+        viewModelScope.launch {
+            val repoResponse = obtainFavoriteSongs()
+            _favoriteSongs.value = repoResponse
+        }
+    }
+    override suspend fun obtainFavoriteSongs(): Resource<List<Song>> {
+        return withContext(Dispatchers.IO) {
+            userRepository.getAllFavorites()
+        }
+    }
 }
 
-@Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(private val userRepository: IUserRepository) :
-    ViewModelProvider.Factory {
+class UserViewModelFactory(private val userRepository: IUserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return UserViewModel(userRepository) as T
     }

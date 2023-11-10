@@ -7,13 +7,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.Song
+import com.example.agenda_musical_reto1.data.repository.ISongRepository
+import com.example.agenda_musical_reto1.data.repository.IUserRepository
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SongViewModel(private val songRepository: RemoteSongDataSource) : ViewModel(), SongViewModelInterface {
+class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), SongViewModelInterface {
 
     private val _songs = MutableLiveData<Resource<List<Song>>>()
     override val songs: LiveData<Resource<List<Song>>> get() = _songs
@@ -27,9 +30,6 @@ class SongViewModel(private val songRepository: RemoteSongDataSource) : ViewMode
     private val _deleted = MutableLiveData<Resource<Int>?>()
     override val deleted: MutableLiveData<Resource<Int>?> get() = _deleted
 
-    init{
-        updateSongList()
-    }
 
     override fun updateSongList(){
         viewModelScope.launch{
@@ -79,7 +79,7 @@ class SongViewModel(private val songRepository: RemoteSongDataSource) : ViewMode
     }
 
 }
-class SongViewModelFactory(private val songRepository: RemoteSongDataSource): ViewModelProvider.Factory{
+class SongViewModelFactory(private val songRepository: ISongRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return SongViewModel(songRepository) as T
     }

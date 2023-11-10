@@ -62,11 +62,11 @@ class LoginActivity : AppCompatActivity() {
             val password: String = findViewById<EditText>(R.id.password_text).text.toString()
             userViewModel.onUserLogin(email, password)
         }
-        userViewModel.user.observe(this, Observer{
+        userViewModel.user.observe(this, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
-                        val intent = Intent(this, ListSongsActivity::class.java)
+                        val intent = Intent(this, MainMenuActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
@@ -80,8 +80,6 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            //
         })
     }
 }
