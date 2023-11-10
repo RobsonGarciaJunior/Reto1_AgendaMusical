@@ -17,6 +17,12 @@ class ResetPasswordActivity : AppCompatActivity() {
             finish()
         }
 
+        findViewById<Button>(R.id.change_password_button).setOnClickListener() {
+            val intent = Intent(this, ConfigurationActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
         mapOf(

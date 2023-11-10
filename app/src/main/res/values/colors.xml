@@ -5,5 +5,6 @@
     <color name="purple">#B888E7</color>
     <color name="transparent">#5B6D23B6</color>
     <color name="textview_background">#5BCAA7EC</color>
+    <color name="login_auto_fill_background">#E1D291</color>
 
 </resources>

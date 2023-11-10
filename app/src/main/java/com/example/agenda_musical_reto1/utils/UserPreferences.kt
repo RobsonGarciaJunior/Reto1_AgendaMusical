@@ -3,6 +3,7 @@ package com.example.agenda_musical_reto1.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.agenda_musical_reto1.R
+import com.example.agenda_musical_reto1.data.User
 
 class UserPreferences {
 
@@ -14,6 +15,7 @@ class UserPreferences {
 
     companion object {
         const val USER_TOKEN = "user_token"
+        val loggedUser : User? = null
     }
 
     /**
@@ -30,5 +32,16 @@ class UserPreferences {
      */
     fun fetchAuthToken(): String? {
         return sharedPreferences.getString(USER_TOKEN, null)
+    }
+    fun getLoggedUser(): User? {
+        return loggedUser
+    }
+    fun saveLoggedUser(user: User) {
+        val editor = sharedPreferences.edit()
+        user.id?.let { editor.putInt("userId", it) }
+        editor.putString("name", user.name)
+        editor.putString("surname", user.surname)
+        editor.putString("email", user.email)
+        editor.apply()
     }
 }
