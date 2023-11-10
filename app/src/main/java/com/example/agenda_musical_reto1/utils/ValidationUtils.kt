@@ -8,6 +8,9 @@ object ValidationUtils {
     fun arePasswordsMatching(password1: String, password2: String): Boolean {
         return password1 == password2
     }
+    fun passwordLength(password: String): Boolean {
+        return password.length >= 5
+    }
     fun areAllFieldsFilled(vararg fields: String): Boolean {
         return fields.all { it.isNotEmpty() }
     }

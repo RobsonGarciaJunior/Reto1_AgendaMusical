@@ -17,7 +17,6 @@ import com.example.agenda_musical_reto1.utils.Resource
 
 class LoginActivity : AppCompatActivity() {
 
-    // vamos a ir contra el repo remoto
     private val userRepository = RemoteUserDataSource()
 
     private val userViewModel: UserViewModel by viewModels {
@@ -25,10 +24,17 @@ class LoginActivity : AppCompatActivity() {
             userRepository
         )
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+        if(intent.extras != null){
+            findViewById<EditText>(R.id.email_text).setText(intent.extras!!.getString("email"))
+            findViewById<EditText>(R.id.email_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
+
+            findViewById<EditText>(R.id.password_text).setText(intent.extras!!.getString("password"))
+            findViewById<EditText>(R.id.password_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
+
+        }
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
             startActivity(intent)
@@ -43,23 +49,16 @@ class LoginActivity : AppCompatActivity() {
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
-        val optionActions =
-            mapOf("Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-                "Todas las Canciones" to {
-                    MenuOptionsHandler.handleMenuOption(
-                        "Todas las Canciones", this
-                    )
-                },
-                "Mis Canciones Favoritas" to {
-                    MenuOptionsHandler.handleMenuOption(
-                        "Mis Canciones Favoritas", this
-                    )
-                })
+        mapOf(
+            "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
+            "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
+            "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
+        )
 
         Spinner.setupPopupMenu(spinnerButton, this)
 
         findViewById<Button>(R.id.login_button).setOnClickListener {
-            val email: String = findViewById<EditText>(R.id.textView2).text.toString()
+            val email: String = findViewById<EditText>(R.id.email_text).text.toString()
             val password: String = findViewById<EditText>(R.id.password_text).text.toString()
             userViewModel.onUserLogin(email, password)
         }

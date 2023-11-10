@@ -95,7 +95,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/textView2"
+            android:id="@+id/email_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/textview_background" />
