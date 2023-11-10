@@ -40,8 +40,12 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
             //COLOCAMOS EL TOKEN EN EL SHAREDPREFERENCES
             authLoginResponse.data?.let { MyApp.userPreferences.saveAuthToken(it.accessToken) }
             //OBTENEMOS EL USUARIO DEL TOKEN
-            val loggedUser: User? = authLoginResponse.data?.let { JWTUtils.decoded(it.accessToken)}
+            val loggedUser: User? = authLoginResponse.data?.let { JWTUtils.decoded(it.accessToken) }
             //TODO COLOCAR EL USUARIO EN SHAREDPREFERENCES
+
+            if (loggedUser != null) {
+                MyApp.userPreferences.saveLoggedUser(loggedUser)
+            }
             _user.value = getUserLogin(authLoginRequest)
         }
     }

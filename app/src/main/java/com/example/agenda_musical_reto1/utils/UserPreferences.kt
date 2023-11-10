@@ -15,7 +15,7 @@ class UserPreferences {
 
     companion object {
         const val USER_TOKEN = "user_token"
-        val loggedUser : User? = null
+        var loggedUser: User? = null
     }
 
     /**
@@ -33,15 +33,19 @@ class UserPreferences {
     fun fetchAuthToken(): String? {
         return sharedPreferences.getString(USER_TOKEN, null)
     }
+
     fun getLoggedUser(): User? {
         return loggedUser
     }
+
     fun saveLoggedUser(user: User) {
         val editor = sharedPreferences.edit()
-        user.id?.let { editor.putInt("userId", it) }
-        editor.putString("name", user.name)
-        editor.putString("surname", user.surname)
-        editor.putString("email", user.email)
+        loggedUser = User(user.id, user.name, user.surname, user.email, null)
+        editor.apply()
+    }
+    fun unLogUser() {
+        val editor = sharedPreferences.edit()
+        loggedUser = null
         editor.apply()
     }
 }
