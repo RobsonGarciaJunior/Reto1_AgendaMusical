@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
-                        val intent = Intent(this, ListSongsActivity::class.java)
+                        val intent = Intent(this, MainMenuActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

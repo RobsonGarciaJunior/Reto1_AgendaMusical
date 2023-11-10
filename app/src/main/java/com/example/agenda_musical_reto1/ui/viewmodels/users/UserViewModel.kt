@@ -36,6 +36,7 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
 
     private val _favoriteSongs = MutableLiveData<Resource<List<Song>>>()
     override val favoriteSongs: LiveData<Resource<List<Song>>> get() = _favoriteSongs
+
     override fun onUserLogin(email: String, password: String) {
         val authLoginRequest = AuthLoginRequest(email, password)
         viewModelScope.launch {
@@ -110,9 +111,7 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(private val userRepository: IUserRepository) :
-    ViewModelProvider.Factory {
+class UserViewModelFactory(private val userRepository: IUserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return UserViewModel(userRepository) as T
     }
