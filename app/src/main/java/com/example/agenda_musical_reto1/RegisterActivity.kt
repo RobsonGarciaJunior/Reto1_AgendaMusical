@@ -30,8 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         findViewById<Button>(R.id.register_button).setOnClickListener() {
             val formEmail = findViewById<TextView>(R.id.mail_text).text.toString()
             val formPassword = findViewById<TextView>(R.id.password_text_register).text.toString()
-            val formPasswordRepeat =
-                findViewById<TextView>(R.id.password_repeat_register_text).text.toString()
+            val formPasswordRepeat = findViewById<TextView>(R.id.password_repeat_register_text).text.toString()
             if (ValidationUtils.isEmailValid(formEmail)) {
                 if (ValidationUtils.arePasswordsMatching(formPassword, formPasswordRepeat)) {
                     if (ValidationUtils.areAllFieldsFilled(
