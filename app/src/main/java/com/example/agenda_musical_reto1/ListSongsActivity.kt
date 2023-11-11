@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -66,10 +67,11 @@ class ListSongsActivity : AppCompatActivity() {
 
         if(intent.extras?.getString("actualIntent").equals("Todas las Canciones")) {
         songViewModel.updateSongList()
-        //ListObtainer.obtainAllSongList(songViewModel)
+            findViewById<TextView>(R.id.listSongTypeLabel).text = "Todas las Canciones"
         } else if(intent.extras?.getString("actualIntent").equals("Mis Canciones Favoritas")) {
         userViewModel.getFavoriteSongs()
-        //ListObtainer.obtainFavoriteList(userViewModel)
+            findViewById<TextView>(R.id.listSongTypeLabel).text = "Mis Canciones Favoritas"
+
         }
         Spinner.setupPopupMenu(spinnerButton, this)
         songAdapter = SongAdapter(::onSongListClickItem)

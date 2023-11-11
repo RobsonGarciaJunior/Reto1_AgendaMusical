@@ -10,17 +10,6 @@ import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.utils.MyApp
 
-//TODO ASK JON CUANDO SE CIERRA EL INTENT ANTERIOR
-object ListObtainer{
-
-    fun obtainFavoriteList(userViewModel: UserViewModel) {
-        userViewModel.getFavoriteSongs()
-    }
-
-    fun obtainAllSongList(songViewModel: SongViewModel) {
-        songViewModel.updateSongList()
-    }
-}
 object MenuOptionsHandler {
     fun handleMenuOption(option: String, context: Context) {
         val intent = when (option) {

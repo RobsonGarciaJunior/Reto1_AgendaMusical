@@ -3,10 +3,12 @@ package com.example.agenda_musical_reto1
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
@@ -38,6 +40,9 @@ class ResetPasswordActivity : AppCompatActivity() {
                     findViewById<EditText>(R.id.password_text_passchng).text.toString(),
                     findViewById<EditText>(R.id.password_repeat_passchng_text).text.toString()
                 )
+                and ValidationUtils.passwordLength(
+                    findViewById<EditText>(R.id.password_text_passchng).text.toString()
+                )
             ) {
 
                 userViewModel.onUserUpdate(
@@ -46,7 +51,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                 )
             } else {
                 findViewById<EditText>(R.id.password_text_passchng).error =
-                    "Las contraseñas no coinciden"
+                    "Las contraseñas no coinciden o la nueva contraseña es demasiado corta"
 
             }
 
@@ -54,10 +59,42 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
+        userViewModel.updated.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.SUCCESS -> {
+                        Toast.makeText(this, "Contraseña cambiada con éxito", Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                    Resource.Status.ERROR -> {
+                        findViewById<EditText>(R.id.old_password_Text).error =
+                            "La contraseña antigua no coincide"
+
+                    }
+
+                    Resource.Status.LOADING -> {
+                        // de momento
+                    }
+                }
+            }
+        })
+
+
         mapOf(
             "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-            "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
-            "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
+            "Todas las Canciones" to {
+                MenuOptionsHandler.handleMenuOption(
+                    "Todas las Canciones",
+                    this
+                )
+            },
+            "Mis Canciones Favoritas" to {
+                MenuOptionsHandler.handleMenuOption(
+                    "Mis Canciones Favoritas",
+                    this
+                )
+            }
         )
 
         Spinner.setupPopupMenu(spinnerButton, this)

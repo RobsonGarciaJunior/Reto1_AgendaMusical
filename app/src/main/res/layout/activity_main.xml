@@ -43,8 +43,9 @@
         android:id="@+id/img_logo"
         android:layout_width="0dp"
         android:layout_height="364dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        android:scaleType="centerCrop"
 
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
