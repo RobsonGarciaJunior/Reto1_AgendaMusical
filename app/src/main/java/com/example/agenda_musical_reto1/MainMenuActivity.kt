@@ -18,7 +18,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
-        val optionActions = mapOf(
+        mapOf(
             "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
             "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
             "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }

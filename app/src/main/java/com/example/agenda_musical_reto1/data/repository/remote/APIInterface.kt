@@ -51,5 +51,8 @@ interface APIInterface {
     suspend fun updateSong(@Path("id") id: Int, @Body song: Song): Response<Int>
 
     @DELETE("songs/{id}")
-    suspend fun deleteSong(@Path("id") id: Int): Response<Int>
+    suspend fun deleteSong(@Path("id") id: Int) : Response<Int>
+
+    @GET("songs/author/{author}")
+    suspend fun getSongbyAuthor(@Path("author") author: String) : Response<List<Song>>
 }
