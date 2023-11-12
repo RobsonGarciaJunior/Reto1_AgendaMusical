@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.agenda_musical_reto1.utils.MyApp
 
@@ -71,6 +72,7 @@ class ConfigurationActivity : AppCompatActivity() {
         if (MyApp.userPreferences.getLoggedUser() == null) {
             findViewById<Button>(R.id.resetPasswordButton).visibility = Button.GONE
             findViewById<Button>(R.id.deleteAccountButton).visibility = Button.GONE
+            findViewById<TextView>(R.id.welcome_label).text = "¡Bienvenido/a!"
 
 
             findViewById<Button>(R.id.sessionButton).text = "Iniciar Sesión"
@@ -78,6 +80,8 @@ class ConfigurationActivity : AppCompatActivity() {
             findViewById<Button>(R.id.resetPasswordButton).visibility = Button.VISIBLE
             findViewById<Button>(R.id.deleteAccountButton).visibility = Button.VISIBLE
             findViewById<Button>(R.id.sessionButton).text = "Cerrar Sesión"
+            findViewById<TextView>(R.id.welcome_label).text = "¡Hola!, ${MyApp.userPreferences.getLoggedUser()?.name}"
+
         }
     }
 }

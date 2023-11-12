@@ -3,11 +3,13 @@ package com.example.agenda_musical_reto1.utils
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
+import com.example.agenda_musical_reto1.data.User
 
 class MyApp : Application() {
     companion object {
         lateinit var context: Context
         lateinit var userPreferences: UserPreferences
+
     }
 
     // Called when the application is starting, before any other application objects have been created.
@@ -16,6 +18,7 @@ class MyApp : Application() {
         super.onCreate()
         context = this
         userPreferences = UserPreferences()
+
         // Required initialization logic here!
     }
 
