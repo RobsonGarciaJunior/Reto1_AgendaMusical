@@ -19,7 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
+class UserViewModel(
+    private val userRepository: IUserRepository
+) : ViewModel(),
     UserViewModelInterface {
 
     private val _user = MutableLiveData<Resource<LoginResponse>?>()
@@ -36,6 +38,12 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
 
     private val _favoriteSongs = MutableLiveData<Resource<List<Song>>>()
     override val favoriteSongs: LiveData<Resource<List<Song>>> get() = _favoriteSongs
+
+    private val _createdFavorite = MutableLiveData<Resource<Int>?>()
+    override val createdFavorite: LiveData<Resource<Int>?> get() = _createdFavorite
+
+    private val _deletedFavorite = MutableLiveData<Resource<Int>?>()
+    override val deletedFavorite: LiveData<Resource<Int>?> get() = _deletedFavorite
 
     override fun onUserLogin(email: String, password: String) {
         val authLoginRequest = AuthLoginRequest(email, password)
@@ -98,20 +106,46 @@ class UserViewModel(private val userRepository: IUserRepository) : ViewModel(),
         }
     }
 
-    fun getFavoriteSongs(){
+    fun getFavoriteSongs() {
         viewModelScope.launch {
             val repoResponse = obtainFavoriteSongs()
             _favoriteSongs.value = repoResponse
         }
     }
+
     override suspend fun obtainFavoriteSongs(): Resource<List<Song>> {
         return withContext(Dispatchers.IO) {
             userRepository.getAllFavorites()
         }
     }
+
+    override fun onCreateFavorite(idSong: Int) {
+        viewModelScope.launch {
+            _createdFavorite.value = createFavorite(idSong)
+        }
+    }
+
+    override suspend fun createFavorite(idSong: Int): Resource<Int> {
+        return withContext(Dispatchers.IO) {
+            userRepository.createFavorite(idSong)
+        }
+    }
+
+    override fun onDeleteFavorite(idSong: Int) {
+        viewModelScope.launch {
+            _deletedFavorite.value = deleteFavorite(idSong)
+        }
+    }
+
+    override suspend fun deleteFavorite(idSong: Int): Resource<Int> {
+        return withContext(Dispatchers.IO) {
+            userRepository.deleteFavorite(idSong)
+        }
+    }
 }
 
-class UserViewModelFactory(private val userRepository: IUserRepository) : ViewModelProvider.Factory {
+class UserViewModelFactory(private val userRepository: IUserRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return UserViewModel(userRepository) as T
     }
