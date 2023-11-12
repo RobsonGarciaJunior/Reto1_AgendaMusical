@@ -19,6 +19,7 @@ import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModelFactory
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
+import com.example.agenda_musical_reto1.utils.MyApp
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,7 +43,7 @@ class ListSongsActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        //TODO CORREGIR NOSE PORQUE TE LOGUEA COMO EL USUARIO 4 YA DE PRIMERAS EN LA APP
         super.onCreate(savedInstanceState)
         val binding = ListSongsActivityBinding.inflate(layoutInflater)
         binding.songRecycler.layoutManager = LinearLayoutManager(this)
@@ -72,10 +73,11 @@ class ListSongsActivity : AppCompatActivity() {
         if (intent.extras?.getString("actualIntent").equals("Todas las Canciones")) {
             findViewById<TextView>(R.id.listSongTypeLabel).text = "Todas las Canciones"
             //Aqui es necesario crear una corrutina para que asegurarnos de cargar primero la lista de favoritas para no comparar una lista nula
-                runBlocking {
+            runBlocking {
                 val job: Job = launch(context = Dispatchers.Default) {
                     songViewModel.updateSongList()
                 }
+                //TODO REVISAR PORQUE AQUI CARGA LAS DE ALGUN USUARIO SI NO SE ESTA LOGUEADO
                 userViewModel.getFavoriteSongs()
                 job.join()
             }
@@ -119,7 +121,7 @@ class ListSongsActivity : AppCompatActivity() {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
-                        for (song in it.data){
+                        for (song in it.data) {
                             song.isFavorite = true
                         }
                         songAdapter.submitList(it.data)
@@ -183,6 +185,7 @@ class ListSongsActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun checkIfFavorite(data: List<Song>, listOfFavorite: List<Song>?) {
         for (song in data) {
             for (favorite in listOfFavorite!!) {
@@ -199,13 +202,22 @@ class ListSongsActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
     private fun onLikeClick(song: Song) {
-       if (song.isFavorite){
-            song.isFavorite = false
-           song.idSong?.let { userViewModel.onDeleteFavorite(it) }
-       }else{
-           song.isFavorite = true
-           song.idSong?.let { userViewModel.onCreateFavorite(it) }
-       }
+        if (MyApp.userPreferences.getLoggedUser() == null) {
+            Toast.makeText(this, "Debes Iniciar Sesion para annadir canciones a favoritas", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            if (song.isFavorite) {
+                song.isFavorite = false
+                song.idSong?.let { userViewModel.onDeleteFavorite(it) }
+            } else {
+                song.isFavorite = true
+                song.idSong?.let { userViewModel.onCreateFavorite(it) }
+            }
+        }
+
     }
 }
