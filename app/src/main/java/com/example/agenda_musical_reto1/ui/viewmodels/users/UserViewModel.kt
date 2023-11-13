@@ -45,22 +45,33 @@ class UserViewModel(
     private val _deletedFavorite = MutableLiveData<Resource<Int>?>()
     override val deletedFavorite: LiveData<Resource<Int>?> get() = _deletedFavorite
 
-    override fun onUserLogin(email: String, password: String) {
+    override fun onUserLogin(email: String, password: String, rememberMe: Boolean) {
         val authLoginRequest = AuthLoginRequest(email, password)
         viewModelScope.launch {
             val authLoginResponse = getUserLogin(authLoginRequest)
-            //COLOCAMOS EL TOKEN EN EL SHAREDPREFERENCES
-            authLoginResponse.data?.let { MyApp.userPreferences.saveAuthToken(it.accessToken) }
-            //OBTENEMOS EL USUARIO DEL TOKEN
-            val loggedUser: User? = authLoginResponse.data?.let { JWTUtils.decoded(it.accessToken) }
-            //TODO COLOCAR EL USUARIO EN SHAREDPREFERENCES
 
+            // COLOCAMOS EL TOKEN EN EL SHAREDPREFERENCES
+            authLoginResponse.data?.let { MyApp.userPreferences.saveAuthToken(it.accessToken) }
+
+            // OBTENEMOS EL USUARIO DEL TOKEN
+            val loggedUser: User? = authLoginResponse.data?.let { JWTUtils.decoded(it.accessToken) }
+
+            // TODO: COLOCAR EL USUARIO EN SHAREDPREFERENCES
             if (loggedUser != null) {
                 MyApp.userPreferences.saveLoggedUser(loggedUser)
+                // Guardar el usuario según la preferencia Remember Me
+                if (rememberMe) {
+                    MyApp.userPreferences.saveRememberMeStatus(true)
+                } else {
+                    // Si no se recuerda, limpiar el usuario almacenado y el estado Remember Me
+                    MyApp.userPreferences.saveRememberMeStatus(false)
+                }
             }
+
             _user.value = getUserLogin(authLoginRequest)
         }
     }
+
 
     override suspend fun getUserLogin(authLoginRequest: AuthLoginRequest): Resource<LoginResponse> {
         return withContext(Dispatchers.IO) {

@@ -2,8 +2,10 @@ package com.example.agenda_musical_reto1.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.agenda_musical_reto1.R
 import com.example.agenda_musical_reto1.data.User
+import com.google.gson.Gson
 
 class UserPreferences {
 
@@ -15,7 +17,8 @@ class UserPreferences {
 
     companion object {
         const val USER_TOKEN = "user_token"
-        var loggedUser: User? = null
+        const val LOGGED_USER = "logged_user"
+        const val REMEMBER_ME = "remember_me"
     }
 
     /**
@@ -35,17 +38,36 @@ class UserPreferences {
     }
 
     fun getLoggedUser(): User? {
-        return loggedUser
+        val userJson = sharedPreferences.getString(LOGGED_USER, null)
+        return if (userJson != null) {
+            // Aquí, utilizamos Gson para convertir el JSON almacenado de nuevo a un objeto User.
+            Gson().fromJson(userJson, User::class.java)
+        } else {
+            null
+        }
     }
 
     fun saveLoggedUser(user: User) {
         val editor = sharedPreferences.edit()
-        loggedUser = User(user.id, user.name, user.surname, user.email, null)
+
+        val userJson = Gson().toJson(user)
+        Log.d("UserPreferences", "saveLoggedUser: $userJson")
+        editor.putString(LOGGED_USER, userJson)
         editor.apply()
     }
     fun unLogUser() {
         val editor = sharedPreferences.edit()
-        loggedUser = null
+        editor.remove(LOGGED_USER)
+        editor.apply()
+    }
+
+    fun isRememberMeEnabled(): Boolean {
+        return sharedPreferences.getBoolean(REMEMBER_ME, false)
+    }
+
+    fun saveRememberMeStatus(rememberMe: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(REMEMBER_ME, rememberMe)
         editor.apply()
     }
 }

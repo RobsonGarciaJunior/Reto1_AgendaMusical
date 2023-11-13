@@ -17,7 +17,7 @@ interface UserViewModelInterface {
     val createdFavorite:  LiveData<Resource<Int>?>
     val deletedFavorite: LiveData<Resource<Int>?>
 
-    fun onUserLogin(email: String, password: String)
+    fun onUserLogin(email: String, password: String, rememberMe: Boolean)
     suspend fun getUserLogin(authLoginRequest: AuthLoginRequest) : Resource<LoginResponse>
     fun onUserRegister(name: String, surname: String, email: String, password: String)
     suspend fun registerUser(user: User): Resource<Int>

@@ -3,6 +3,7 @@ package com.example.agenda_musical_reto1
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -54,6 +55,9 @@ class ListSongsActivity : AppCompatActivity() {
             val intent = Intent(this, ConfigurationActivity::class.java)
             startActivity(intent)
             finish()
+        }
+        findViewById<ImageButton>(R.id.searchButton).setOnClickListener {
+            songViewModel.onGetFilteredSongs(findViewById<EditText>(R.id.songFilter).text.toString())
         }
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
@@ -113,6 +117,29 @@ class ListSongsActivity : AppCompatActivity() {
                     Log.d("ListSongsActivity", "Cargando datos...")
                 }
             }
+        })
+        songViewModel.filteredSongs.observe(this, Observer {
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty()) {
+                        songAdapter.submitList(it.data)
+                        Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
+                    } else {
+                        Log.d("ListSongsActivity", "El autor indicado no tiene canciones")
+                    }
+                }
+
+                Resource.Status.ERROR -> {
+                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
+                    Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
+                }
+
+                Resource.Status.LOADING -> {
+                    Log.d("ListSongsActivity", "Cargando datos...")
+                }
+            }
+
         })
 
         userViewModel.favoriteSongs.observe(this, Observer {
