@@ -29,7 +29,7 @@
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:paddingEnd="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_layout"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +80,7 @@
         app:layout_constraintBottom_toTopOf="@+id/small_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
         <TextView
             android:id="@+id/listSongTypeLabel"
@@ -90,7 +90,6 @@
             android:layout_marginEnd="1dp"
             android:background="@drawable/ic_west_gradient"
             android:fontFamily="@font/josefin_sans_bold"
-            android:text="@string/favorites_list"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="34sp"
@@ -109,5 +108,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listSongTypeLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout6">
+
+        <EditText
+            android:id="@+id/songFilter"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Buscar por Autor"
+            android:inputType="text"
+            android:textColor="#FFFEFE"
+            android:textColorHighlight="#F3F0F0"
+            android:textColorHint="#F4EFEF"
+            android:textColorLink="#FFFBFB" />
+
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="#00FFFFFF"
+            android:foreground="?android:attr/selectableItemBackground"
+
+            app:srcCompat="@android:drawable/ic_menu_search" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

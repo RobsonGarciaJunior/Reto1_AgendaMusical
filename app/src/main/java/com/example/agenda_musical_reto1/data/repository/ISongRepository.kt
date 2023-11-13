@@ -9,4 +9,5 @@ interface ISongRepository {
     suspend fun createSong(song: Song) : Resource<Int>
     suspend fun updateSong(id: Int, song: Song) : Resource<Int>
     suspend fun deleteSong(id: Int) : Resource<Int>
+    suspend fun getSongByAuthor(author: String) : Resource<List<Song>>
 }

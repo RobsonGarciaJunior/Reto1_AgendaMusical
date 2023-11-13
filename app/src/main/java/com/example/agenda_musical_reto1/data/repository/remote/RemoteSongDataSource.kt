@@ -23,4 +23,8 @@ class RemoteSongDataSource: BaseDataSource(), ISongRepository {
     override suspend fun deleteSong(id: Int) = getResult {
         RetrofitClient.apiInterface.deleteSong(id)
     }
+
+    override suspend fun getSongByAuthor(author: String) = getResult {
+        RetrofitClient.apiInterface.getSongbyAuthor(author)
+    }
 }

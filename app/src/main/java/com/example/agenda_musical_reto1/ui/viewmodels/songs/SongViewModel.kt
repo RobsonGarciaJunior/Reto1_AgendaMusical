@@ -21,6 +21,9 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
     private val _songs = MutableLiveData<Resource<List<Song>>>()
     override val songs: LiveData<Resource<List<Song>>> get() = _songs
 
+    private val _filteredSongs = MutableLiveData<Resource<List<Song>>>()
+    override val filteredSongs: LiveData<Resource<List<Song>>> get() = _filteredSongs
+
     private val _created = MutableLiveData<Resource<Int>?>()
     override val created: MutableLiveData<Resource<Int>?> get() = _created
 
@@ -75,6 +78,20 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
     override suspend fun deleteSong(id: Int): Resource<Int> {
         return withContext(Dispatchers.IO) {
             songRepository.deleteSong(id)
+        }
+    }
+    override fun onGetFilteredSongs(author: String) {
+        if (author.isNotEmpty()) {
+            viewModelScope.launch {
+                val repoFilteredResponse = getSongByAuthorFromRepository(author)
+                _filteredSongs.value = repoFilteredResponse
+            }
+        }
+    }
+
+    override suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>{
+        return withContext(Dispatchers.IO){
+            songRepository.getSongByAuthor(author)
         }
     }
 
