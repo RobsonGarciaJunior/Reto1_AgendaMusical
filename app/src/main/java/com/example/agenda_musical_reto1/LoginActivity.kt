@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+
         if(intent.extras != null){
             findViewById<EditText>(R.id.email_text).setText(intent.extras!!.getString("email"))
             findViewById<EditText>(R.id.email_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
@@ -35,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
             findViewById<EditText>(R.id.password_text).setText(intent.extras!!.getString("password"))
             findViewById<EditText>(R.id.password_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
 
+        }
+        if(intent.hasExtra("Toast")){
+            Toast.makeText(this, intent.getStringExtra("Toast"), Toast.LENGTH_LONG).show()
         }
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)

@@ -47,13 +47,13 @@
 
     <ImageButton
         android:id="@+id/favoriteImage"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#00FFFFFF"
         android:paddingLeft="2dp"
         android:paddingBottom="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_favorite" />
+        android:src="@drawable/ic_not_favorite" />
 
 </LinearLayout>
 

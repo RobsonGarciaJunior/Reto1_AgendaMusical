@@ -6,8 +6,6 @@ import android.view.ContextThemeWrapper
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
-import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
-import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.utils.MyApp
 
 object MenuOptionsHandler {
@@ -16,7 +14,7 @@ object MenuOptionsHandler {
             "Inicio" -> Intent(context, MainMenuActivity::class.java)
             "Todas las Canciones" -> Intent(context, ListSongsActivity::class.java).putExtra("actualIntent","Todas las Canciones")
             "Mis Canciones Favoritas" -> if (MyApp.userPreferences.getLoggedUser() == null) {
-                Intent(context, LoginActivity::class.java)
+                Intent(context, LoginActivity::class.java).putExtra("Toast", "Inicio De Sesion Requerido para acceder a Mis Favoritas")
             } else {
                 Intent(context, ListSongsActivity::class.java).putExtra("actualIntent","Mis Canciones Favoritas")
             }
