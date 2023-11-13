@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -60,7 +61,9 @@ class LoginActivity : AppCompatActivity() {
         findViewById<Button>(R.id.login_button).setOnClickListener {
             val email: String = findViewById<EditText>(R.id.email_text).text.toString()
             val password: String = findViewById<EditText>(R.id.password_text).text.toString()
-            userViewModel.onUserLogin(email, password)
+            val rememberMe: Boolean = findViewById<CheckBox>(R.id.remember_me).isChecked
+
+            userViewModel.onUserLogin(email, password, rememberMe )
         }
         userViewModel.user.observe(this, Observer {
             if (it != null) {
@@ -72,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     Resource.Status.ERROR -> {
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                        findViewById<EditText>(R.id.email_text).error = "Usuario o Contraseña Incorrectos"
                     }
 
                     Resource.Status.LOADING -> {

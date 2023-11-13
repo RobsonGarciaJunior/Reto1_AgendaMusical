@@ -65,6 +65,10 @@ class ResetPasswordActivity : AppCompatActivity() {
                     Resource.Status.SUCCESS -> {
                         Toast.makeText(this, "Contraseña cambiada con éxito", Toast.LENGTH_LONG)
                             .show()
+                        findViewById<EditText>(R.id.old_password_Text).setText("")
+                        findViewById<EditText>(R.id.password_text_passchng).setText("")
+                        findViewById<EditText>(R.id.password_repeat_passchng_text).setText("")
+
                     }
 
                     Resource.Status.ERROR -> {
