@@ -31,6 +31,5 @@ interface UserViewModelInterface {
     fun onCreateFavorite(idSong: Int)
     suspend fun deleteFavorite(idSong: Int): Resource<Int>
     fun onGetFilteredSongs(author: String)
-    suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>
 
 }

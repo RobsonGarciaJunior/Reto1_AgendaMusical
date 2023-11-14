@@ -1,14 +1,15 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.agenda_musical_reto1.data.Song
@@ -18,14 +19,8 @@ import com.example.agenda_musical_reto1.databinding.ListSongsActivityBinding
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongAdapter
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModelFactory
-import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
-import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
 import com.example.agenda_musical_reto1.utils.MyApp
 import com.example.agenda_musical_reto1.utils.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class ListSongsActivity : BaseActivity() {
     private lateinit var songAdapter: SongAdapter
@@ -77,9 +72,6 @@ class ListSongsActivity : BaseActivity() {
 
             override fun afterTextChanged(editable: Editable?) {}
         })
-
-
-            //Aqui es necesario crear una corrutina para que asegurarnos de cargar primero la lista de favoritas para no comparar una lista nula
 
 
         Spinner.setupPopupMenu(spinnerButton, this)
@@ -208,13 +200,11 @@ class ListSongsActivity : BaseActivity() {
             finish()
         } else {
             if (song.isFavorite) {
-                //song.isFavorite = false
                 song.idSong?.let { songViewModel.onDeleteFavorite(it) }
                 finish()
                 intent = Intent(this, ListSongsActivity::class.java)
                 startActivity(intent)
             } else {
-                //song.isFavorite = true
                 song.idSong?.let { songViewModel.onCreateFavorite(it) }
                 finish()
                 intent = Intent(this, ListSongsActivity::class.java)
@@ -222,18 +212,6 @@ class ListSongsActivity : BaseActivity() {
             }
         }
 
-    }
-    private fun loadBothLists() {
-        runBlocking {
-            val job: Job = launch(context = Dispatchers.Default) {
-                songViewModel.updateSongList()
-            }
-
-            if (MyApp.userPreferences.getLoggedUser() != null) {
-                songViewModel.getFavoriteSongs()
-            }
-            job.join()
-        }
     }
 
 }

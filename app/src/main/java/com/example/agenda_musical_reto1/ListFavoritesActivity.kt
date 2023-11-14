@@ -2,6 +2,8 @@ package com.example.agenda_musical_reto1
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
@@ -45,9 +47,7 @@ class ListFavoritesActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        findViewById<ImageButton>(R.id.searchButton).setOnClickListener {
-            userViewModel.onGetFilteredSongs(findViewById<EditText>(R.id.songFilter).text.toString())
-        }
+
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
@@ -68,6 +68,17 @@ class ListFavoritesActivity : AppCompatActivity() {
         binding.songRecycler.adapter = songAdapter
 
         userViewModel.getFavoriteSongs()
+
+        findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchTerm = charSequence.toString()
+                userViewModel.onGetFilteredSongs(searchTerm)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
 
         userViewModel.filteredSongs.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
@@ -122,27 +133,7 @@ class ListFavoritesActivity : AppCompatActivity() {
                 }
             }
         })
-        userViewModel.createdFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido add en la lista de favs")
 
-            if (it != null) {
-                when (it.status) {
-                    Resource.Status.SUCCESS -> {
-                        userViewModel.getFavoriteSongs()
-                    }
-
-                    Resource.Status.ERROR -> {
-                        Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG)
-                            .show()
-                        Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
-                    }
-
-                    Resource.Status.LOADING -> {
-                        Log.d("ListSongsActivity", "Cargando datos...")
-                    }
-                }
-            }
-        })
         userViewModel.deletedFavorite.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
 
