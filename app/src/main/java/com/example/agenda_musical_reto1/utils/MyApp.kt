@@ -1,9 +1,11 @@
 package com.example.agenda_musical_reto1.utils
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import com.example.agenda_musical_reto1.data.User
+import android.os.Bundle
+import android.util.Log
 
 class MyApp : Application() {
     companion object {
@@ -34,4 +36,15 @@ class MyApp : Application() {
     override fun onLowMemory() {
         super.onLowMemory()
     }
+    override fun onTerminate() {
+        Log.d("MyApp", "Se ha cerrado la aplicación1")
+        super.onTerminate()
+        Log.d("MyApp", "Se ha cerrado la aplicación")
+
+        // Realiza acciones específicas al cerrar la aplicación
+        if (!userPreferences.isRememberMeEnabled()) {
+            userPreferences.unLogUser()
+        }
+    }
+
 }

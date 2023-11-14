@@ -64,7 +64,7 @@ class RegisterActivity : AppCompatActivity() {
                             formSurname
                         )
                     ) {
-                        val created = userViewModel.onUserRegister(
+                        userViewModel.onUserRegister(
                             formName,
                             formSurname,
                             formEmail,

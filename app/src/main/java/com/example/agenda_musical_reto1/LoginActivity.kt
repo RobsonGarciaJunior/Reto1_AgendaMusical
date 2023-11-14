@@ -25,21 +25,24 @@ class LoginActivity : AppCompatActivity() {
             userRepository
         )
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
-        if(intent.extras != null){
+        if (intent.hasExtra("email") && intent.hasExtra("password")) {
             findViewById<EditText>(R.id.email_text).setText(intent.extras!!.getString("email"))
             findViewById<EditText>(R.id.email_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
 
             findViewById<EditText>(R.id.password_text).setText(intent.extras!!.getString("password"))
             findViewById<EditText>(R.id.password_text).setBackgroundColor(getColor(R.color.login_auto_fill_background))
 
+
         }
-        if(intent.hasExtra("Toast")){
+        if (intent.hasExtra("Toast")) {
             Toast.makeText(this, intent.getStringExtra("Toast"), Toast.LENGTH_LONG).show()
         }
+
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
             startActivity(intent)
@@ -56,8 +59,18 @@ class LoginActivity : AppCompatActivity() {
 
         mapOf(
             "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-            "Todas las Canciones" to { MenuOptionsHandler.handleMenuOption("Todas las Canciones", this) },
-            "Mis Canciones Favoritas" to { MenuOptionsHandler.handleMenuOption("Mis Canciones Favoritas", this) }
+            "Todas las Canciones" to {
+                MenuOptionsHandler.handleMenuOption(
+                    "Todas las Canciones",
+                    this
+                )
+            },
+            "Mis Canciones Favoritas" to {
+                MenuOptionsHandler.handleMenuOption(
+                    "Mis Canciones Favoritas",
+                    this
+                )
+            }
         )
 
         Spinner.setupPopupMenu(spinnerButton, this)
@@ -67,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
             val password: String = findViewById<EditText>(R.id.password_text).text.toString()
             val rememberMe: Boolean = findViewById<CheckBox>(R.id.remember_me).isChecked
 
-            userViewModel.onUserLogin(email, password, rememberMe )
+            userViewModel.onUserLogin(email, password, rememberMe)
         }
         userViewModel.user.observe(this, Observer {
             if (it != null) {
@@ -79,7 +92,8 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     Resource.Status.ERROR -> {
-                        findViewById<EditText>(R.id.email_text).error = "Usuario o Contraseña Incorrectos"
+                        findViewById<EditText>(R.id.email_text).error =
+                            "Usuario o Contraseña Incorrectos"
                     }
 
                     Resource.Status.LOADING -> {
