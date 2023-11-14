@@ -16,7 +16,7 @@ interface UserViewModelInterface {
     val favoriteSongs: LiveData<Resource<List<Song>>>
     val createdFavorite:  LiveData<Resource<Int>?>
     val deletedFavorite: LiveData<Resource<Int>?>
-
+    val filteredSongs: LiveData<Resource<List<Song>>>
     fun onUserLogin(email: String, password: String, rememberMe: Boolean)
     suspend fun getUserLogin(authLoginRequest: AuthLoginRequest) : Resource<LoginResponse>
     fun onUserRegister(name: String, surname: String, email: String, password: String)
@@ -30,6 +30,6 @@ interface UserViewModelInterface {
     suspend fun createFavorite(idSong: Int): Resource<Int>
     fun onCreateFavorite(idSong: Int)
     suspend fun deleteFavorite(idSong: Int): Resource<Int>
-
+    fun onGetFilteredSongs(author: String)
 
 }
