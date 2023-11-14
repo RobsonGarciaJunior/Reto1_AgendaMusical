@@ -1,14 +1,16 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.agenda_musical_reto1.data.Song
@@ -27,8 +29,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class ListSongsActivity : AppCompatActivity() {
+class ListSongsActivity : BaseActivity() {
     private lateinit var songAdapter: SongAdapter
+
     private val songRepository = RemoteSongDataSource()
     private val songViewModel: SongViewModel by viewModels {
         SongViewModelFactory(
@@ -56,9 +59,7 @@ class ListSongsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        findViewById<ImageButton>(R.id.searchButton).setOnClickListener {
-            songViewModel.onGetFilteredSongs(findViewById<EditText>(R.id.songFilter).text.toString())
-        }
+
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
@@ -73,6 +74,17 @@ class ListSongsActivity : AppCompatActivity() {
                     "Mis Canciones Favoritas", this
                 )
             })
+        findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchTerm = charSequence.toString()
+                songViewModel.onGetFilteredSongs(searchTerm)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+
 
         if (intent.extras?.getString("actualIntent").equals("Todas las Canciones")) {
             findViewById<TextView>(R.id.listSongTypeLabel).text = "Todas las Canciones"
@@ -143,8 +155,8 @@ class ListSongsActivity : AppCompatActivity() {
                     Log.d("ListSongsActivity", "Cargando datos...")
                 }
             }
-
         })
+
 
         userViewModel.favoriteSongs.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un cambio en la lista de favs")

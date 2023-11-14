@@ -1,5 +1,6 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,7 @@ import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
 import com.example.agenda_musical_reto1.utils.Resource
 import com.example.agenda_musical_reto1.utils.ValidationUtils
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
     private val userRepository = RemoteUserDataSource()
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory(

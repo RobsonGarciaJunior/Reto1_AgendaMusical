@@ -8,11 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.repository.ISongRepository
-import com.example.agenda_musical_reto1.data.repository.IUserRepository
-import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -23,6 +20,9 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
 
     private val _filteredSongs = MutableLiveData<Resource<List<Song>>>()
     override val filteredSongs: LiveData<Resource<List<Song>>> get() = _filteredSongs
+
+    private val _playlistSongs = MutableLiveData<Resource<List<Song>>>()
+    override val playlistsongs: LiveData<Resource<List<Song>>> get() = _playlistSongs
 
     private val _created = MutableLiveData<Resource<Int>?>()
     override val created: MutableLiveData<Resource<Int>?> get() = _created
@@ -80,21 +80,40 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
             songRepository.deleteSong(id)
         }
     }
-
-    override fun onGetFilteredSongs(author: String) {
+//Carga de Playlist
+    override fun onGetPlaylistSongs(author: String) {
         if (author.isNotEmpty()) {
             viewModelScope.launch {
-                val repoFilteredResponse = getSongByAuthorFromRepository(author)
-                _filteredSongs.value = repoFilteredResponse
+                val repoPlaylistResponse = getSongByAuthorFromRepository(author)
+                _playlistSongs.value = repoPlaylistResponse
             }
         }
     }
-
     override suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>{
         return withContext(Dispatchers.IO){
             songRepository.getSongByAuthor(author)
         }
     }
+    //filtrado de canciones por autor
+    override fun onGetFilteredSongs(author: String) {
+        viewModelScope.launch {
+            val currentSongs = _songs.value?.data
+            if (currentSongs != null) {
+                val filteredSongs = filterSongsByAuthor(currentSongs, author)
+                _filteredSongs.value = Resource.success(filteredSongs)
+            }
+        }
+    }
+    private fun filterSongsByAuthor(songs: List<Song>, author: String): List<Song> {
+        return if (author.isNotEmpty()) {
+            songs.filter { it.author.contains(author, ignoreCase = true) }
+        } else {
+            // Si el término de búsqueda está vacío, simplemente devuelve la lista completa
+            songs
+        }
+    }
+
+
 
 }
 class SongViewModelFactory(private val songRepository: ISongRepository): ViewModelProvider.Factory{

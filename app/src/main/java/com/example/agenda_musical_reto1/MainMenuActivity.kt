@@ -1,5 +1,7 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +9,7 @@ import android.util.Log
 import android.widget.ImageButton
 import com.example.agenda_musical_reto1.utils.MyApp
 
-class MainMenuActivity : AppCompatActivity() {
+class MainMenuActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_menu_activity)
@@ -44,6 +46,4 @@ class MainMenuActivity : AppCompatActivity() {
 
         Spinner.setupPopupMenu(spinnerButton, this)
     }
-
-
 }

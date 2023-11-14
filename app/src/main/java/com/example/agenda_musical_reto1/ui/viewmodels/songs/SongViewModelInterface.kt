@@ -20,6 +20,8 @@ interface SongViewModelInterface {
     suspend fun updateSong(idSong: Int, song: Song): Resource<Int>
     fun onDeleteSong(id: Int)
     suspend fun deleteSong(id: Int): Resource<Int>
-    fun onGetFilteredSongs(author: String)
+    fun onGetPlaylistSongs(author: String)
     suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>
+    fun onGetFilteredSongs(author: String)
+    val playlistsongs: LiveData<Resource<List<Song>>>
 }

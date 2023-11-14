@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Agenda_Musical_reto1"
+rootProject.name = "CyberWave"
 include(":app")
  

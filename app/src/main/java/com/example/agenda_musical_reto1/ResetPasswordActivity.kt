@@ -1,5 +1,6 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
 import com.example.agenda_musical_reto1.utils.Resource
 import com.example.agenda_musical_reto1.utils.ValidationUtils
 
-class ResetPasswordActivity : AppCompatActivity() {
+class ResetPasswordActivity : BaseActivity() {
     private val userRepository = RemoteUserDataSource()
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory(
