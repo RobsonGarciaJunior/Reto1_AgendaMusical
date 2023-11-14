@@ -80,6 +80,7 @@ class SongViewModel(private val songRepository: ISongRepository) : ViewModel(), 
             songRepository.deleteSong(id)
         }
     }
+
     override fun onGetFilteredSongs(author: String) {
         if (author.isNotEmpty()) {
             viewModelScope.launch {

@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
             finish()
-            return
         }
 
 
@@ -43,7 +42,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    
+
+
 }
 
 

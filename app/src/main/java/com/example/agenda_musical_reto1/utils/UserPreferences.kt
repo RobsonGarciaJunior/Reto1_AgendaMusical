@@ -7,12 +7,20 @@ import com.example.agenda_musical_reto1.R
 import com.example.agenda_musical_reto1.data.User
 import com.google.gson.Gson
 
-class UserPreferences {
+class UserPreferences() {
+
+
 
     private val sharedPreferences: SharedPreferences by lazy {
         MyApp.context.getSharedPreferences(
             MyApp.context.getString(R.string.app_name), Context.MODE_PRIVATE
         )
+    }
+
+    init {
+        if (!isRememberMeEnabled()) {
+            unLogUser()
+        }
     }
 
     companion object {
@@ -58,6 +66,8 @@ class UserPreferences {
     fun unLogUser() {
         val editor = sharedPreferences.edit()
         editor.remove(LOGGED_USER)
+        editor.remove(USER_TOKEN)
+        editor.remove(REMEMBER_ME)
         editor.apply()
     }
 

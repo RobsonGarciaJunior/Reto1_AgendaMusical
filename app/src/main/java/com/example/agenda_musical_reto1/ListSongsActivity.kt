@@ -81,9 +81,13 @@ class ListSongsActivity : AppCompatActivity() {
                 val job: Job = launch(context = Dispatchers.Default) {
                     songViewModel.updateSongList()
                 }
-                //TODO REVISAR PORQUE AQUI CARGA LAS DE ALGUN USUARIO SI NO SE ESTA LOGUEADO
-                userViewModel.getFavoriteSongs()
+
+                if (MyApp.userPreferences.getLoggedUser() != null) {
+                    userViewModel.getFavoriteSongs()
+                }
                 job.join()
+
+
             }
         } else if (intent.extras?.getString("actualIntent").equals("Mis Canciones Favoritas")) {
             findViewById<TextView>(R.id.listSongTypeLabel).text = "Mis Canciones Favoritas"
@@ -214,13 +218,16 @@ class ListSongsActivity : AppCompatActivity() {
     }
 
     private fun checkIfFavorite(data: List<Song>, listOfFavorite: List<Song>?) {
-        for (song in data) {
-            for (favorite in listOfFavorite!!) {
-                if (song.idSong == favorite.idSong) {
-                    song.isFavorite = true
+        if(!listOfFavorite.isNullOrEmpty()){
+            for (song in data) {
+                for (favorite in listOfFavorite!!) {
+                    if (song.idSong == favorite.idSong) {
+                        song.isFavorite = true
+                    }
                 }
             }
         }
+
     }
 
     private fun onSongListClickItem(song: Song) {
@@ -232,16 +239,16 @@ class ListSongsActivity : AppCompatActivity() {
 
     private fun onLikeClick(song: Song) {
         if (MyApp.userPreferences.getLoggedUser() == null) {
-            Toast.makeText(this, "Debes Iniciar Sesion para annadir canciones a favoritas", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Debes Iniciar Sesion para añadir canciones a favoritas", Toast.LENGTH_LONG).show()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         } else {
             if (song.isFavorite) {
-                song.isFavorite = false
+                //song.isFavorite = false
                 song.idSong?.let { userViewModel.onDeleteFavorite(it) }
             } else {
-                song.isFavorite = true
+                //song.isFavorite = true
                 song.idSong?.let { userViewModel.onCreateFavorite(it) }
             }
         }

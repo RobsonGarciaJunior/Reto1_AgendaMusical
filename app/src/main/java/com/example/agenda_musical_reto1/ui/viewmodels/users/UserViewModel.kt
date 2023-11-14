@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.AuthLoginRequest
@@ -133,6 +134,13 @@ class UserViewModel(
     override fun onCreateFavorite(idSong: Int) {
         viewModelScope.launch {
             _createdFavorite.value = createFavorite(idSong)
+            _favoriteSongs.value?.data?.map {
+                if (it.idSong == idSong) {
+                    it.isFavorite = true
+                }
+            }
+
+            _favoriteSongs.value = _favoriteSongs.value
         }
     }
 
@@ -145,6 +153,11 @@ class UserViewModel(
     override fun onDeleteFavorite(idSong: Int) {
         viewModelScope.launch {
             _deletedFavorite.value = deleteFavorite(idSong)
+            _favoriteSongs.value?.data?.map {
+                if (it.idSong == idSong) {
+                    it.isFavorite = false
+                }
+            }
         }
     }
 
