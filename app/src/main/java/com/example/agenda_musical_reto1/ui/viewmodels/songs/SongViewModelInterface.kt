@@ -11,7 +11,10 @@ interface SongViewModelInterface {
     val created: MutableLiveData<Resource<Int>?>
     val updated: MutableLiveData<Resource<Int>?>
     val deleted: MutableLiveData<Resource<Int>?>
-     val filteredSongs: LiveData<Resource<List<Song>>>
+    val filteredSongs: LiveData<Resource<List<Song>>>
+    val favoriteSongs: LiveData<Resource<List<Song>>>
+    val createdFavorite:  LiveData<Resource<Int>?>
+    val deletedFavorite: LiveData<Resource<Int>?>
     fun updateSongList()
     suspend fun getSongFromRepository(): Resource<List<Song>>
     fun onAddSong(title: String, author: String, url: String)
@@ -22,4 +25,9 @@ interface SongViewModelInterface {
     suspend fun deleteSong(id: Int): Resource<Int>
     fun onGetFilteredSongs(author: String)
     suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>
+    suspend fun obtainFavoriteSongs(): Resource<List<Song>>
+    fun onDeleteFavorite(idSong: Int)
+    suspend fun createFavorite(idSong: Int): Resource<Int>
+    fun onCreateFavorite(idSong: Int)
+    suspend fun deleteFavorite(idSong: Int): Resource<Int>
 }

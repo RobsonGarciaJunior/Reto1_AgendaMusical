@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
@@ -17,9 +18,11 @@ import com.example.agenda_musical_reto1.utils.ValidationUtils
 
 class RegisterActivity : AppCompatActivity() {
     private val userRepository = RemoteUserDataSource()
+    private val songRepository = RemoteSongDataSource()
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory(
-            userRepository
+            userRepository,
+            songRepository
         )
     }
 

@@ -1,5 +1,6 @@
 package com.example.agenda_musical_reto1.ui.viewmodels.songs
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -26,10 +27,10 @@ class SongAdapter(
         val song = getItem(position)
         holder.bind(song)
         holder.itemView.setOnClickListener {
-             onClickListener(song)
+            onClickListener(song)
         }
         //TODO Corregir esto para que el listener sea apenas del icono del corazon ya que tal y como esta ahora da fallos extrannos en la lista de favs
-        holder.itemView.findViewById<ImageButton>(R.id.favoriteImage).setOnClickListener{
+        holder.itemView.findViewById<ImageButton>(R.id.favoriteImage).setOnClickListener {
             onLikeClick(song)
         }
     }
@@ -40,10 +41,14 @@ class SongAdapter(
             binding.songName.text = song.title
             binding.artistText.text = song.author
             YouTubeThumbnailUtil.getYouTubeThumbnailUrl(song.url)
-            YouTubeThumbnailUtil.loadYouTubeThumbnail(binding.root.context, song.url, binding.songImage)
+            YouTubeThumbnailUtil.loadYouTubeThumbnail(
+                binding.root.context,
+                song.url,
+                binding.songImage
+            )
             if (song.isFavorite) {
                 binding.favoriteImage.setImageResource(R.drawable.ic_favorite)
-            }else{
+            } else {
                 binding.favoriteImage.setImageResource(R.drawable.ic_not_favorite)
             }
         }

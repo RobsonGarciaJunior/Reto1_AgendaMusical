@@ -12,11 +12,11 @@ object MenuOptionsHandler {
     fun handleMenuOption(option: String, context: Context) {
         val intent = when (option) {
             "Inicio" -> Intent(context, MainMenuActivity::class.java)
-            "Todas las Canciones" -> Intent(context, ListSongsActivity::class.java).putExtra("actualIntent","Todas las Canciones")
+            "Todas las Canciones" -> Intent(context, ListSongsActivity::class.java)
             "Mis Canciones Favoritas" -> if (MyApp.userPreferences.getLoggedUser() == null) {
-                Intent(context, LoginActivity::class.java).putExtra("Toast", "Inicio De Sesion Requerido para acceder a Mis Favoritas")
+                Intent(context, LoginActivity::class.java)
             } else {
-                Intent(context, ListSongsActivity::class.java).putExtra("actualIntent","Mis Canciones Favoritas")
+                Intent(context, ListFavoritesActivity::class.java)
             }
             else -> null
         }

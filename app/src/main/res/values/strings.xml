@@ -20,5 +20,7 @@
     <string name="label_login_connection">¿Ya tienes cuenta? Inicia Sesión</string>
     <string name="here">Aquí</string>
     <string name="label_connection_register">¿No tienes cuenta? Registrate</string>
+    <string name="all_songs">Todas las Canciones</string>
+    <string name="my_songs">Mis Favoritas</string>
 
 </resources>
