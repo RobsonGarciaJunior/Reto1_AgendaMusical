@@ -90,7 +90,7 @@
             android:layout_marginEnd="1dp"
             android:background="@drawable/ic_west_gradient"
             android:fontFamily="@font/josefin_sans_bold"
-            android:text="@string/all_songs"
+            android:text="@string/my_songs"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="34sp"
@@ -124,7 +124,7 @@
 
         <EditText
             android:id="@+id/songFilter"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Buscar por Autor"
@@ -134,6 +134,14 @@
             android:textColorHint="#F4EFEF"
             android:textColorLink="#FFFBFB" />
 
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="#00FFFFFF"
+            android:foreground="?android:attr/selectableItemBackground"
+
+            app:srcCompat="@android:drawable/ic_menu_search" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

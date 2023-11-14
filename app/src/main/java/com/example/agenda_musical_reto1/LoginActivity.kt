@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
 import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
@@ -20,10 +21,12 @@ import com.example.agenda_musical_reto1.utils.Resource
 class LoginActivity : BaseActivity() {
 
     private val userRepository = RemoteUserDataSource()
+    private val songRepository = RemoteSongDataSource()
 
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory(
-            userRepository
+            userRepository,
+            songRepository
         )
     }
 

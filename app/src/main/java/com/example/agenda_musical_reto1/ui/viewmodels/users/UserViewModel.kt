@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.agenda_musical_reto1.data.AuthLoginRequest
@@ -12,6 +11,7 @@ import com.example.agenda_musical_reto1.data.AuthUpdatePassword
 import com.example.agenda_musical_reto1.data.LoginResponse
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.User
+import com.example.agenda_musical_reto1.data.repository.ISongRepository
 import com.example.agenda_musical_reto1.data.repository.IUserRepository
 import com.example.agenda_musical_reto1.utils.JWTUtils
 import com.example.agenda_musical_reto1.utils.MyApp
@@ -21,7 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class UserViewModel(
-    private val userRepository: IUserRepository
+    private val userRepository: IUserRepository,
+    private val songRepository: ISongRepository
 ) : ViewModel(),
     UserViewModelInterface {
 
@@ -45,6 +46,10 @@ class UserViewModel(
 
     private val _deletedFavorite = MutableLiveData<Resource<Int>?>()
     override val deletedFavorite: LiveData<Resource<Int>?> get() = _deletedFavorite
+
+    private val _filteredSongs = MutableLiveData<Resource<List<Song>>>()
+    override val filteredSongs: LiveData<Resource<List<Song>>> get() = _filteredSongs
+
 
     override fun onUserLogin(email: String, password: String, rememberMe: Boolean) {
         val authLoginRequest = AuthLoginRequest(email, password)
@@ -166,11 +171,25 @@ class UserViewModel(
             userRepository.deleteFavorite(idSong)
         }
     }
+    override fun onGetFilteredSongs(author: String) {
+        if (author.isNotEmpty()) {
+            viewModelScope.launch {
+                val repoFilteredResponse = getSongByAuthorFromRepository(author)
+                _filteredSongs.value = repoFilteredResponse
+            }
+        }
+    }
+
+    override suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>{
+        return withContext(Dispatchers.IO){
+            songRepository.getSongByAuthor(author)
+        }
+    }
 }
 
-class UserViewModelFactory(private val userRepository: IUserRepository) :
-    ViewModelProvider.Factory {
+class UserViewModelFactory(private val userRepository: IUserRepository, private val songRepository: ISongRepository)
+    :    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        return UserViewModel(userRepository) as T
+        return UserViewModel(userRepository, songRepository) as T
     }
 }
