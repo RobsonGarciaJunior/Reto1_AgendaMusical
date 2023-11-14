@@ -1,5 +1,6 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.agenda_musical_reto1.utils.MyApp
 
-class ConfigurationActivity : AppCompatActivity() {
+class ConfigurationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.configuration_activity)

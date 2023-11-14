@@ -1,5 +1,6 @@
 package com.example.agenda_musical_reto1
 
+import BaseActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +21,7 @@ import com.example.agenda_musical_reto1.utils.Resource
 import com.example.agenda_musical_reto1.utils.YouTubeThumbnailUtil
 
 
-class SongActivity : AppCompatActivity() {
+class SongActivity : BaseActivity() {
 
     private val userRepository = RemoteUserDataSource()
     private val userViewModel: UserViewModel by viewModels {
@@ -149,4 +150,7 @@ class SongActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
+
+
+
 }
