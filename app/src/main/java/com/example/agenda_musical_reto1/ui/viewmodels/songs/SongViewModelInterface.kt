@@ -18,6 +18,7 @@ interface SongViewModelInterface {
     val playlistsongs: LiveData<Resource<List<Song>>>
 
     fun updateSongList()
+    fun updateSongListWithFavorites()
     suspend fun getSongFromRepository(): Resource<List<Song>>
     fun onAddSong(title: String, author: String, url: String)
     suspend fun createNewSong(song: Song): Resource<Int>

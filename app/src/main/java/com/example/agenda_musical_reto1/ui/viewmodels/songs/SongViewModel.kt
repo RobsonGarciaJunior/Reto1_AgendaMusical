@@ -56,7 +56,7 @@ class SongViewModel(
         updateSongList()
     }
 
-    fun updateSongListWithFavorites() {
+    override fun updateSongListWithFavorites() {
         if (_songs.value?.status == Resource.Status.SUCCESS && _favoriteSongs.value?.status == Resource.Status.SUCCESS) {
 
             var items: MutableList<Song> = _songs.value!!.data?.toMutableList() ?: mutableListOf()
