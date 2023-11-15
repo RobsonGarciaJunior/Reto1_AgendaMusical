@@ -118,7 +118,7 @@
                     android:layout_height="33dp"
                     android:fontFamily="@font/josefin_sans_bold"
                     android:gravity="center"
-                    android:text="AC/DC"
+                    android:text="ACDC"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 

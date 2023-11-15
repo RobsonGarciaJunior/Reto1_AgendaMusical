@@ -137,7 +137,6 @@ class ListFavoritesActivity : BaseActivity() {
 
         userViewModel.deletedFavorite.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
-
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {

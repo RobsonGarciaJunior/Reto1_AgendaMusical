@@ -83,15 +83,11 @@ class ListSongsActivity : BaseActivity() {
             Log.e("PruebasDia1", "ha ocurrido un cambio en la lista total")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
-
-                    if (!favoritesLoaded) {
-                        songViewModel.getFavoriteSongs()
-                        favoritesLoaded = true
-                    }
-
                     if (!it.data.isNullOrEmpty()) {
-                        // val listOfFavorite: List<Song>? = songViewModel.favoriteSongs.value?.data
-                        // checkIfFavorite(it.data, listOfFavorite)
+                        if (!favoritesLoaded) {
+                            songViewModel.getFavoriteSongs()
+                            favoritesLoaded = true
+                        }
                         songAdapter.submitList(it.data)
                         songAdapter.notifyDataSetChanged()
                         Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
@@ -111,7 +107,6 @@ class ListSongsActivity : BaseActivity() {
                 }
             }
         })
-
         songViewModel.favoriteSongs.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
             when (it.status) {
@@ -154,7 +149,6 @@ class ListSongsActivity : BaseActivity() {
             }
 
         })
-
         songViewModel.createdFavorite.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido add en la lista de favs")
 

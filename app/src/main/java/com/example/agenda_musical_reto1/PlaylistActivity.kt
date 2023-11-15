@@ -25,6 +25,7 @@ class PlaylistActivity : BaseActivity() {
 
     private val userRepository = RemoteUserDataSource()
     private val songRepository = RemoteSongDataSource()
+    private var favoritesLoaded = false
     private val songViewModel: SongViewModel by viewModels {
         SongViewModelFactory(
             songRepository,
@@ -39,7 +40,7 @@ class PlaylistActivity : BaseActivity() {
         setContentView(binding.root)
         val receivedArtist = intent.getStringExtra("artist")
         val playlistLabel = findViewById<TextView>(R.id.playlistLabel)
-        Log.d( "artista", receivedArtist.toString())
+        Log.d("artista", receivedArtist.toString())
         if (receivedArtist != null) {
             val formattedText = getString(R.string.playlist_label, receivedArtist)
             playlistLabel.text = formattedText
@@ -47,15 +48,11 @@ class PlaylistActivity : BaseActivity() {
             songViewModel.onGetPlaylistSongs(receivedArtist)
         }
 
-
-
-
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
             startActivity(intent)
             finish()
         }
-
 
         val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
 
@@ -80,11 +77,14 @@ class PlaylistActivity : BaseActivity() {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
-                        val list: List<Song>? = songViewModel.playlistsongs.value?.data
-                        checkIfFavorite(it.data, list)
+                        if (!favoritesLoaded) {
+                            songViewModel.getFavoriteSongs()
+                            favoritesLoaded = true
+                        }
                         songAdapter.submitList(it.data)
+                        songAdapter.notifyDataSetChanged()
                         Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
-                    } else {
+                    }else {
                         Log.d("ListSongsActivity", "La lista de canciones está vacía")
                     }
                 }
@@ -101,25 +101,20 @@ class PlaylistActivity : BaseActivity() {
             }
         })
 
+        songViewModel.favoriteSongs.observe(this, Observer {
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    songViewModel.updatePlaylistSongListWithFavorites()
+                }
 
-        songViewModel.deletedFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
+                Resource.Status.ERROR -> {
+                    // Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
+                    Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
+                }
 
-            if (it != null) {
-                when (it.status) {
-                    Resource.Status.SUCCESS -> {
-                        songViewModel.getFavoriteSongs()
-                    }
-
-                    Resource.Status.ERROR -> {
-                        Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG)
-                            .show()
-                        Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
-                    }
-
-                    Resource.Status.LOADING -> {
-                        Log.d("ListSongsActivity", "Cargando datos...")
-                    }
+                Resource.Status.LOADING -> {
+                    Log.d("ListSongsActivity", "Cargando datos...")
                 }
             }
         })
@@ -130,18 +125,6 @@ class PlaylistActivity : BaseActivity() {
         intent.putExtra("song", song)
         startActivity(intent)
         finish()
-    }
-    private fun checkIfFavorite(data: List<Song>, listOfFavorite: List<Song>?) {
-        if(!listOfFavorite.isNullOrEmpty()){
-            for (song in data) {
-                for (favorite in listOfFavorite!!) {
-                    if (song.idSong == favorite.idSong) {
-                        song.isFavorite = true
-                    }
-                }
-            }
-        }
-
     }
 
     private fun onLikeClick(song: Song) {
@@ -156,9 +139,9 @@ class PlaylistActivity : BaseActivity() {
             finish()
         } else {
             if (song.isFavorite) {
-                song.idSong?.let { songViewModel.onDeleteFavorite(it) }
+                song.idSong?.let { songViewModel.onDeletePlaylistFavorite(it) }
             } else {
-                song.idSong?.let { songViewModel.onCreateFavorite(it) }
+                song.idSong?.let { songViewModel.onCreatePlaylistFavorite(it) }
             }
         }
 
