@@ -1,10 +1,9 @@
 package com.example.agenda_musical_reto1
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.agenda_musical_reto1.utils.MyApp
 
 class MainActivity : AppCompatActivity() {
@@ -23,11 +22,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        findViewById<TextView>(R.id.guest_link).setOnClickListener() {
-            val intent = Intent(this, MainMenuActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         findViewById<Button>(R.id.register_view_button).setOnClickListener() {
             val intent = Intent(this, RegisterActivity::class.java)

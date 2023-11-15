@@ -2,7 +2,6 @@ package com.example.agenda_musical_reto1
 
 import BaseActivity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -23,8 +22,7 @@ class ResetPasswordActivity : BaseActivity() {
 
     private val userViewModel: UserViewModel by viewModels {
         UserViewModelFactory(
-            userRepository,
-            songRepository
+            userRepository, songRepository
         )
     }
 
@@ -42,8 +40,7 @@ class ResetPasswordActivity : BaseActivity() {
             if (ValidationUtils.arePasswordsMatching(
                     findViewById<EditText>(R.id.password_text_passchng).text.toString(),
                     findViewById<EditText>(R.id.password_repeat_passchng_text).text.toString()
-                )
-                and ValidationUtils.passwordLength(
+                ) and ValidationUtils.passwordLength(
                     findViewById<EditText>(R.id.password_text_passchng).text.toString()
                 )
             ) {
@@ -81,28 +78,23 @@ class ResetPasswordActivity : BaseActivity() {
                     }
 
                     Resource.Status.LOADING -> {
-                        // de momento
                     }
                 }
             }
         })
 
 
-        mapOf(
-            "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
+        mapOf("Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
             "Todas las Canciones" to {
                 MenuOptionsHandler.handleMenuOption(
-                    "Todas las Canciones",
-                    this
+                    "Todas las Canciones", this
                 )
             },
             "Mis Canciones Favoritas" to {
                 MenuOptionsHandler.handleMenuOption(
-                    "Mis Canciones Favoritas",
-                    this
+                    "Mis Canciones Favoritas", this
                 )
-            }
-        )
+            })
 
         Spinner.setupPopupMenu(spinnerButton, this)
     }

@@ -24,5 +24,14 @@
     <string name="label_connection_register">¿No tienes cuenta? Registrate</string>
     <string name="all_songs">Todas las Canciones</string>
     <string name="my_songs">Mis Favoritas</string>
+    <string name="search_by_autor">Buscar por Autor</string>
+    <string name="acdc">ACDC</string>
+    <string name="post_malone">Post Malone</string>
+    <string name="linkin_park">Linkin Park</string>
+    <string name="avicii">Avicii</string>
+    <string name="_80s">80s</string>
+    <string name="rap">Rap</string>
+    <string name="rock">Rock</string>
+    <string name="house">House</string>
 
 </resources>

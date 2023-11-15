@@ -77,30 +77,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_view_button">
-
-        <TextView
-            android:id="@+id/guest_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingStart="40dp"
-            android:text="@string/guest_mode"
-            android:textColor="#DCD4D4"
-            android:textSize="24sp"
-            tools:ignore="RtlSymmetry" />
-
-        <TextView
-            android:id="@+id/guest_link"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:paddingStart="10dp"
-            android:text="@string/here"
-            android:textColor="#FAFAFA"
-            android:textColorLink="#9A4D4D"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:ignore="RtlSymmetry" />
-    </TableRow>
+        app:layout_constraintTop_toBottomOf="@+id/register_view_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
