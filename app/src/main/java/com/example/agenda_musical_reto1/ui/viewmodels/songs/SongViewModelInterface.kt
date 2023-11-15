@@ -33,4 +33,5 @@ interface SongViewModelInterface {
     suspend fun createFavorite(idSong: Int): Resource<Int>
     fun onCreateFavorite(idSong: Int)
     suspend fun deleteFavorite(idSong: Int): Resource<Int>
+    fun updateFavoriteSongList()
 }

@@ -3,45 +3,52 @@ package com.example.agenda_musical_reto1
 import BaseActivity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteUserDataSource
-import com.example.agenda_musical_reto1.databinding.ListFavoriteSongsActivityBinding
+import com.example.agenda_musical_reto1.databinding.PlaylistActivityBinding
 import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongAdapter
-import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModel
-import com.example.agenda_musical_reto1.ui.viewmodels.users.UserViewModelFactory
+import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModel
+import com.example.agenda_musical_reto1.ui.viewmodels.songs.SongViewModelFactory
 import com.example.agenda_musical_reto1.utils.MyApp
 import com.example.agenda_musical_reto1.utils.Resource
 
-class ListFavoritesActivity : BaseActivity() {
+class PlaylistActivity : BaseActivity() {
     private lateinit var songAdapter: SongAdapter
 
     private val userRepository = RemoteUserDataSource()
     private val songRepository = RemoteSongDataSource()
-    private val userViewModel: UserViewModel by viewModels {
-        UserViewModelFactory(
-            userRepository,
-            songRepository
+    private val songViewModel: SongViewModel by viewModels {
+        SongViewModelFactory(
+            songRepository,
+            userRepository
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO CORREGIR NOSE PORQUE TE LOGUEA COMO EL USUARIO 4 YA DE PRIMERAS EN LA APP
         super.onCreate(savedInstanceState)
-        val binding = ListFavoriteSongsActivityBinding.inflate(layoutInflater)
+        val binding = PlaylistActivityBinding.inflate(layoutInflater)
         binding.songRecycler.layoutManager = LinearLayoutManager(this)
-
         setContentView(binding.root)
+        val receivedArtist = intent.getStringExtra("artist")
+        val playlistLabel = findViewById<TextView>(R.id.playlistLabel)
+        Log.d( "artista", receivedArtist.toString())
+        if (receivedArtist != null) {
+            val formattedText = getString(R.string.playlist_label, receivedArtist)
+            playlistLabel.text = formattedText
+
+            songViewModel.onGetPlaylistSongs(receivedArtist)
+        }
+
+
+
 
         findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
             val intent = Intent(this, ConfigurationActivity::class.java)
@@ -68,57 +75,16 @@ class ListFavoritesActivity : BaseActivity() {
         songAdapter = SongAdapter(::onSongListClickItem, ::onLikeClick)
         binding.songRecycler.adapter = songAdapter
 
-        userViewModel.getFavoriteSongs()
-
-        findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
-                val searchTerm = charSequence.toString()
-                userViewModel.onGetFilteredSongs(searchTerm)
-            }
-
-            override fun afterTextChanged(editable: Editable?) {}
-        })
-
-        userViewModel.filteredSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
+        songViewModel.playlistsongs.observe(this, Observer {
+            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista total")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
+                        val list: List<Song>? = songViewModel.playlistsongs.value?.data
+                        checkIfFavorite(it.data, list)
                         songAdapter.submitList(it.data)
                         Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
                     } else {
-                        Log.d("ListSongsActivity", "El autor indicado no tiene canciones")
-                    }
-                }
-
-                Resource.Status.ERROR -> {
-                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG)
-                        .show()
-                    Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
-                }
-
-                Resource.Status.LOADING -> {
-                    Log.d("ListSongsActivity", "Cargando datos...")
-                }
-            }
-
-        })
-
-        userViewModel.favoriteSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista de favs")
-
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty()) {
-                        for (song in it.data) {
-                            song.isFavorite = true
-                        }
-                        songAdapter.submitList(it.data)
-                        Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
-                    } else if (it.data.isNullOrEmpty()) {
-                        songAdapter.submitList(it.data)
                         Log.d("ListSongsActivity", "La lista de canciones está vacía")
                     }
                 }
@@ -135,13 +101,14 @@ class ListFavoritesActivity : BaseActivity() {
             }
         })
 
-        userViewModel.deletedFavorite.observe(this, Observer {
+
+        songViewModel.deletedFavorite.observe(this, Observer {
             Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
 
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
-                        userViewModel.getFavoriteSongs()
+                        songViewModel.getFavoriteSongs()
                     }
 
                     Resource.Status.ERROR -> {
@@ -164,6 +131,18 @@ class ListFavoritesActivity : BaseActivity() {
         startActivity(intent)
         finish()
     }
+    private fun checkIfFavorite(data: List<Song>, listOfFavorite: List<Song>?) {
+        if(!listOfFavorite.isNullOrEmpty()){
+            for (song in data) {
+                for (favorite in listOfFavorite!!) {
+                    if (song.idSong == favorite.idSong) {
+                        song.isFavorite = true
+                    }
+                }
+            }
+        }
+
+    }
 
     private fun onLikeClick(song: Song) {
         if (MyApp.userPreferences.getLoggedUser() == null) {
@@ -177,11 +156,9 @@ class ListFavoritesActivity : BaseActivity() {
             finish()
         } else {
             if (song.isFavorite) {
-                //song.isFavorite = false
-                song.idSong?.let { userViewModel.onDeleteFavorite(it) }
+                song.idSong?.let { songViewModel.onDeleteFavorite(it) }
             } else {
-                //song.isFavorite = true
-                song.idSong?.let { userViewModel.onCreateFavorite(it) }
+                song.idSong?.let { songViewModel.onCreateFavorite(it) }
             }
         }
 

@@ -201,14 +201,16 @@ class ListSongsActivity : BaseActivity() {
         } else {
             if (song.isFavorite) {
                 song.idSong?.let { songViewModel.onDeleteFavorite(it) }
-                finish()
                 intent = Intent(this, ListSongsActivity::class.java)
                 startActivity(intent)
+                finish()
+
             } else {
                 song.idSong?.let { songViewModel.onCreateFavorite(it) }
-                finish()
                 intent = Intent(this, ListSongsActivity::class.java)
                 startActivity(intent)
+                finish()
+
             }
         }
 
