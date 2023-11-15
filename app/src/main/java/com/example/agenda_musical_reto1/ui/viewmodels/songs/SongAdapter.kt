@@ -60,7 +60,7 @@ class SongAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
-            return (oldItem.idSong == newItem.idSong && oldItem.title == newItem.title && oldItem.author == newItem.author)
+            return (oldItem.idSong == newItem.idSong && oldItem.title == newItem.title && oldItem.author == newItem.author&& oldItem.isFavorite == newItem.isFavorite)
         }
     }
 }
