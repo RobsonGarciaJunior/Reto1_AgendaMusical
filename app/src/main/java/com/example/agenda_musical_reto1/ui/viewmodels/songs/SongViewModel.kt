@@ -22,8 +22,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class SongViewModel(
-    private val songRepository: ISongRepository,
-    private val userRepository: IUserRepository
+    private val songRepository: ISongRepository, private val userRepository: IUserRepository
 ) : ViewModel(), SongViewModelInterface {
 
     private val _songs = MutableLiveData<Resource<List<Song>>>()
@@ -54,23 +53,50 @@ class SongViewModel(
     override val deletedFavorite: LiveData<Resource<Int>?> get() = _deletedFavorite
 
     init {
-        runBlocking {
-            val job: Job = launch(context = Dispatchers.Default) {
-                updateSongList()
-            }
-
-            if (MyApp.userPreferences.getLoggedUser() != null) {
-                getFavoriteSongs()
-            }
-            job.join()
-        }
+        updateSongList()
     }
 
+    override fun updateSongListWithFavorites() {
+        if (_songs.value?.status == Resource.Status.SUCCESS && _favoriteSongs.value?.status == Resource.Status.SUCCESS) {
 
+            var items: MutableList<Song> = _songs.value!!.data?.toMutableList() ?: mutableListOf()
+
+            for (song in items) {
+                for (favorite in _favoriteSongs.value!!.data!!) {
+                    if (song.idSong == favorite.idSong) {
+                        song.isFavorite = true
+                    }
+                }
+            }
+            _songs.value = Resource.success(items)
+        }
+    }
+    fun updatePlaylistSongListWithFavorites() {
+        if (_playlistSongs.value?.status == Resource.Status.SUCCESS && _favoriteSongs.value?.status == Resource.Status.SUCCESS) {
+
+            var items: MutableList<Song> = _playlistSongs.value!!.data?.toMutableList() ?: mutableListOf()
+
+            for (song in items) {
+                for (favorite in _favoriteSongs.value!!.data!!) {
+                    if (song.idSong == favorite.idSong) {
+                        song.isFavorite = true
+                    }
+                }
+            }
+            _playlistSongs.value = Resource.success(items)
+        }
+    }
     override fun updateSongList() {
         viewModelScope.launch {
             val repoResponse = getSongFromRepository()
             _songs.value = repoResponse
+        }
+    }
+
+    override fun updateFavoriteSongList() {
+        viewModelScope.launch {
+            val repoResponse = obtainFavoriteSongs()
+            _favoriteSongs.value = repoResponse
         }
     }
 
@@ -118,7 +144,8 @@ class SongViewModel(
             songRepository.deleteSong(id)
         }
     }
-//Carga de Playlist
+
+    //Carga de Playlist
     override fun onGetPlaylistSongs(author: String) {
         if (author.isNotEmpty()) {
             viewModelScope.launch {
@@ -127,11 +154,13 @@ class SongViewModel(
             }
         }
     }
-    override suspend fun getSongByAuthorFromRepository(author: String) : Resource<List<Song>>{
-        return withContext(Dispatchers.IO){
+
+    override suspend fun getSongByAuthorFromRepository(author: String): Resource<List<Song>> {
+        return withContext(Dispatchers.IO) {
             songRepository.getSongByAuthor(author)
         }
     }
+
     //filtrado de canciones por autor
     override fun onGetFilteredSongs(author: String) {
         viewModelScope.launch {
@@ -142,7 +171,8 @@ class SongViewModel(
             }
         }
     }
-    private fun filterSongsByAuthor(songs: List<Song>, author: String): List<Song> {
+
+    override fun filterSongsByAuthor(songs: List<Song>, author: String): List<Song> {
         return if (author.isNotEmpty()) {
             songs.filter { it.author.contains(author, ignoreCase = true) }
         } else {
@@ -151,9 +181,7 @@ class SongViewModel(
         }
     }
 
-
-
-    fun getFavoriteSongs() {
+    override fun getFavoriteSongs() {
         viewModelScope.launch {
             val repoResponse = obtainFavoriteSongs()
             _favoriteSongs.value = repoResponse
@@ -169,16 +197,31 @@ class SongViewModel(
     override fun onCreateFavorite(idSong: Int) {
         viewModelScope.launch {
             _createdFavorite.value = createFavorite(idSong)
-            _favoriteSongs.value?.data?.map {
-                if (it.idSong == idSong) {
-                    it.isFavorite = true
-                }
-            }
 
-            _favoriteSongs.value = _favoriteSongs.value
+            var items: MutableList<Song> = mutableListOf()
+            for (songOfList in _songs.value?.data!!) {
+                if (songOfList.idSong == idSong) {
+                    songOfList.isFavorite = true
+                }
+                items.add(songOfList)
+            }
+            _songs.value = Resource.success(items)
         }
     }
+    override fun onCreatePlaylistFavorite(idSong: Int) {
+        viewModelScope.launch {
+            _createdFavorite.value = createFavorite(idSong)
 
+            var items: MutableList<Song> = mutableListOf()
+            for (songOfList in _playlistSongs.value?.data!!) {
+                if (songOfList.idSong == idSong) {
+                    songOfList.isFavorite = true
+                }
+                items.add(songOfList)
+            }
+            _playlistSongs.value = Resource.success(items)
+        }
+    }
     override suspend fun createFavorite(idSong: Int): Resource<Int> {
         return withContext(Dispatchers.IO) {
             userRepository.createFavorite(idSong)
@@ -188,14 +231,30 @@ class SongViewModel(
     override fun onDeleteFavorite(idSong: Int) {
         viewModelScope.launch {
             _deletedFavorite.value = deleteFavorite(idSong)
-            _favoriteSongs.value?.data?.map {
-                if (it.idSong == idSong) {
-                    it.isFavorite = false
+
+            var items: MutableList<Song> = mutableListOf()
+            for (songOfList in _songs.value?.data!!) {
+                if (songOfList.idSong == idSong) {
+                    songOfList.isFavorite = false
                 }
+                items.add(songOfList)
             }
+            _songs.value = Resource.success(items)
         }
     }
-
+    override fun onDeletePlaylistFavorite(idSong: Int) {
+        viewModelScope.launch {
+            _deletedFavorite.value = deleteFavorite(idSong)
+            var items: MutableList<Song> = mutableListOf()
+            for (songOfList in _playlistSongs.value?.data!!) {
+                if (songOfList.idSong == idSong) {
+                    songOfList.isFavorite = false
+                }
+                items.add(songOfList)
+            }
+            _playlistSongs.value = Resource.success(items)
+        }
+    }
     override suspend fun deleteFavorite(idSong: Int): Resource<Int> {
         return withContext(Dispatchers.IO) {
             userRepository.deleteFavorite(idSong)
@@ -205,8 +264,7 @@ class SongViewModel(
 }
 
 class SongViewModelFactory(
-    private val songRepository: ISongRepository,
-    private val userRepository: IUserRepository
+    private val songRepository: ISongRepository, private val userRepository: IUserRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         return SongViewModel(songRepository, userRepository) as T
