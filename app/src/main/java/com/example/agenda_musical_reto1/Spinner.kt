@@ -12,12 +12,23 @@ object MenuOptionsHandler {
     fun handleMenuOption(option: String, context: Context) {
         val intent = when (option) {
             "Inicio" -> Intent(context, MainMenuActivity::class.java)
-            "Todas las Canciones" -> Intent(context, ListSongsActivity::class.java)
+            "Todas las Canciones" -> if (MyApp.userPreferences.getLoggedUser() == null) {
+                Intent(context, LoginActivity::class.java).putExtra(
+                    "Toast", "Inicia sesión para acceder a las Canciones"
+                )
+
+            } else {
+                Intent(context, ListSongsActivity::class.java)
+            }
+
             "Mis Canciones Favoritas" -> if (MyApp.userPreferences.getLoggedUser() == null) {
-                Intent(context, LoginActivity::class.java)
+                Intent(context, LoginActivity::class.java).putExtra(
+                    "Toast", "Inicia sesión para acceder a Mis Canciones Favoritas"
+                )
             } else {
                 Intent(context, ListFavoritesActivity::class.java)
             }
+
             else -> null
         }
         intent?.run {
@@ -45,6 +56,7 @@ class Spinner {
                 popupMenu.show()
             }
         }
+
         private fun configureMenuOptions(
             popupMenu: PopupMenu, menuOptions: List<String>, context: Context
         ) {

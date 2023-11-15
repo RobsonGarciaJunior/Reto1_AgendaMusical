@@ -28,8 +28,7 @@ class PlaylistActivity : BaseActivity() {
     private var favoritesLoaded = false
     private val songViewModel: SongViewModel by viewModels {
         SongViewModelFactory(
-            songRepository,
-            userRepository
+            songRepository, userRepository
         )
     }
 
@@ -73,7 +72,6 @@ class PlaylistActivity : BaseActivity() {
         binding.songRecycler.adapter = songAdapter
 
         songViewModel.playlistsongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista total")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
@@ -84,7 +82,7 @@ class PlaylistActivity : BaseActivity() {
                         songAdapter.submitList(it.data)
                         songAdapter.notifyDataSetChanged()
                         Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
-                    }else {
+                    } else {
                         Log.d("ListSongsActivity", "La lista de canciones está vacía")
                     }
                 }
@@ -102,14 +100,12 @@ class PlaylistActivity : BaseActivity() {
         })
 
         songViewModel.favoriteSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     songViewModel.updatePlaylistSongListWithFavorites()
                 }
 
                 Resource.Status.ERROR -> {
-                    // Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
                     Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
                 }
 
@@ -130,9 +126,7 @@ class PlaylistActivity : BaseActivity() {
     private fun onLikeClick(song: Song) {
         if (MyApp.userPreferences.getLoggedUser() == null) {
             Toast.makeText(
-                this,
-                "Debes Iniciar Sesion para añadir canciones a favoritas",
-                Toast.LENGTH_LONG
+                this, "Debes Iniciar Sesion para añadir canciones a favoritas", Toast.LENGTH_LONG
             ).show()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

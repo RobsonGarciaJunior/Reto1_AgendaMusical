@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Buscar por Autor"
+            android:hint="@string/search_by_autor"
             android:inputType="text"
             android:textColor="#FFFEFE"
             android:textColorHighlight="#F3F0F0"

@@ -37,7 +37,6 @@ class ListSongsActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO CORREGIR NOSE PORQUE TE LOGUEA COMO EL USUARIO 4 YA DE PRIMERAS EN LA APP
         super.onCreate(savedInstanceState)
         val binding = ListSongsActivityBinding.inflate(layoutInflater)
         binding.songRecycler.layoutManager = LinearLayoutManager(this)
@@ -64,9 +63,20 @@ class ListSongsActivity : BaseActivity() {
                 )
             })
         findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 val searchTerm = charSequence.toString()
                 songViewModel.onGetFilteredSongs(searchTerm)
             }
@@ -108,14 +118,12 @@ class ListSongsActivity : BaseActivity() {
             }
         })
         songViewModel.favoriteSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     songViewModel.updateSongListWithFavorites()
                 }
 
                 Resource.Status.ERROR -> {
-                    // Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
                     Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
                 }
 
@@ -126,7 +134,6 @@ class ListSongsActivity : BaseActivity() {
 
         })
         songViewModel.filteredSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
@@ -139,7 +146,8 @@ class ListSongsActivity : BaseActivity() {
                 }
 
                 Resource.Status.ERROR -> {
-                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG)
+                        .show()
                     Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
                 }
 
@@ -150,8 +158,6 @@ class ListSongsActivity : BaseActivity() {
 
         })
         songViewModel.createdFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido add en la lista de favs")
-
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
@@ -172,8 +178,6 @@ class ListSongsActivity : BaseActivity() {
         })
 
         songViewModel.deletedFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
-
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
@@ -203,7 +207,11 @@ class ListSongsActivity : BaseActivity() {
 
     private fun onLikeClick(song: Song) {
         if (MyApp.userPreferences.getLoggedUser() == null) {
-            Toast.makeText(this, "Debes Iniciar Sesion para añadir canciones a favoritas", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                "Debes Iniciar Sesion para añadir canciones a favoritas",
+                Toast.LENGTH_LONG
+            ).show()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -216,3 +224,4 @@ class ListSongsActivity : BaseActivity() {
         }
     }
 }
+

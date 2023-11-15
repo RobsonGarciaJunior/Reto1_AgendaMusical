@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.agenda_musical_reto1.data.Song
 import com.example.agenda_musical_reto1.data.repository.remote.RemoteSongDataSource
@@ -57,7 +56,11 @@ class SongActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.favorite_heart).setOnClickListener {
             if (receivedSong != null) {
                 if (MyApp.userPreferences.getLoggedUser() == null) {
-                    Toast.makeText(this, "Debes Iniciar Sesion para annadir canciones a favoritas", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Debes Iniciar Sesion para annadir canciones a favoritas",
+                        Toast.LENGTH_LONG
+                    ).show()
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -104,8 +107,6 @@ class SongActivity : BaseActivity() {
             Spinner.setupPopupMenu(spinnerButton, this)
         }
         userViewModel.createdFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido add en la lista de favs")
-
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
@@ -125,7 +126,6 @@ class SongActivity : BaseActivity() {
             }
         })
         userViewModel.deletedFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
 
             if (it != null) {
                 when (it.status) {
@@ -153,7 +153,6 @@ class SongActivity : BaseActivity() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
-
 
 
 }

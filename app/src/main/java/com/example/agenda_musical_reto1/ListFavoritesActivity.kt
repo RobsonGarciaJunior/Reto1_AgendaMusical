@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.agenda_musical_reto1.data.Song
@@ -36,7 +35,6 @@ class ListFavoritesActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //TODO CORREGIR NOSE PORQUE TE LOGUEA COMO EL USUARIO 4 YA DE PRIMERAS EN LA APP
         super.onCreate(savedInstanceState)
         val binding = ListFavoriteSongsActivityBinding.inflate(layoutInflater)
         binding.songRecycler.layoutManager = LinearLayoutManager(this)
@@ -71,9 +69,20 @@ class ListFavoritesActivity : BaseActivity() {
         userViewModel.getFavoriteSongs()
 
         findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 val searchTerm = charSequence.toString()
                 userViewModel.onGetFilteredSongs(searchTerm)
             }
@@ -82,12 +91,10 @@ class ListFavoritesActivity : BaseActivity() {
         })
 
         userViewModel.filteredSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista filtrada")
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
                         songAdapter.submitList(it.data)
-                        Log.d("ListSongsActivity", "Datos cargados correctamente: ${it.data}")
                     } else {
                         Log.d("ListSongsActivity", "El autor indicado no tiene canciones")
                     }
@@ -107,8 +114,6 @@ class ListFavoritesActivity : BaseActivity() {
         })
 
         userViewModel.favoriteSongs.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un cambio en la lista de favs")
-
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
@@ -136,7 +141,6 @@ class ListFavoritesActivity : BaseActivity() {
         })
 
         userViewModel.deletedFavorite.observe(this, Observer {
-            Log.e("PruebasDia1", "ha ocurrido un delete en la lista de favs")
             if (it != null) {
                 when (it.status) {
                     Resource.Status.SUCCESS -> {
@@ -176,10 +180,8 @@ class ListFavoritesActivity : BaseActivity() {
             finish()
         } else {
             if (song.isFavorite) {
-                //song.isFavorite = false
                 song.idSong?.let { userViewModel.onDeleteFavorite(it) }
             } else {
-                //song.isFavorite = true
                 song.idSong?.let { userViewModel.onCreateFavorite(it) }
             }
         }

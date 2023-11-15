@@ -2,12 +2,10 @@ package com.example.agenda_musical_reto1
 
 import BaseActivity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -47,11 +45,6 @@ class LoginActivity : BaseActivity() {
             Toast.makeText(this, intent.getStringExtra("Toast"), Toast.LENGTH_LONG).show()
         }
 
-        findViewById<ImageButton>(R.id.configButton).setOnClickListener() {
-            val intent = Intent(this, ConfigurationActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         findViewById<TextView>(R.id.register_connection).setOnClickListener() {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -59,25 +52,6 @@ class LoginActivity : BaseActivity() {
             finish()
         }
 
-        val spinnerButton = findViewById<ImageButton>(R.id.menuSpinner)
-
-        mapOf(
-            "Inicio" to { MenuOptionsHandler.handleMenuOption("Inicio", this) },
-            "Todas las Canciones" to {
-                MenuOptionsHandler.handleMenuOption(
-                    "Todas las Canciones",
-                    this
-                )
-            },
-            "Mis Canciones Favoritas" to {
-                MenuOptionsHandler.handleMenuOption(
-                    "Mis Canciones Favoritas",
-                    this
-                )
-            }
-        )
-
-        Spinner.setupPopupMenu(spinnerButton, this)
 
         findViewById<Button>(R.id.login_button).setOnClickListener {
             val email: String = findViewById<EditText>(R.id.email_text).text.toString()

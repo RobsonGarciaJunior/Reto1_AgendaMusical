@@ -6,8 +6,10 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.agenda_musical_reto1.LoginActivity
 import com.example.agenda_musical_reto1.MainActivity
 import com.example.agenda_musical_reto1.MainMenuActivity
+import com.example.agenda_musical_reto1.utils.MyApp
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -20,9 +22,18 @@ open class BaseActivity : AppCompatActivity() {
             showExitConfirmationDialog()
         } else {
             // Si no es MainMenuActivity, simplemente finaliza la actividad actual y vuelve a MainMenuActivity
-            finish()
-            val intent = Intent(this, MainMenuActivity::class.java)
-            startActivity(intent)
+            if(MyApp.userPreferences.getLoggedUser()!=null){
+                val intent = Intent(this, MainMenuActivity::class.java)
+                startActivity(intent)
+                finish()
+
+            }else{
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+
+            }
+
         }
     }
 
