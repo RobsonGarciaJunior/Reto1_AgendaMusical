@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CyberWave</string>
     <string name="email">Email</string>
+    <string name="playlist_label">Lo Mejor de %s</string>
+
     <string name="recuerdame">Recuerdame</string>
     <string name="iniciar_sesion">Iniciar Sesion</string>
     <string name="password">Contraseña</string>

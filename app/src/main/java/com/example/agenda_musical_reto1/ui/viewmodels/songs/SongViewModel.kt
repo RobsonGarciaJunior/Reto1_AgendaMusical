@@ -78,6 +78,13 @@ class SongViewModel(
         }
     }
 
+    override fun updateFavoriteSongList() {
+        viewModelScope.launch {
+            val repoResponse = obtainFavoriteSongs()
+            _favoriteSongs.value = repoResponse
+        }
+    }
+
     override suspend fun getSongFromRepository(): Resource<List<Song>> {
         return withContext(Dispatchers.IO) {
             songRepository.getSongs()

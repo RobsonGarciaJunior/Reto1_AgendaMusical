@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.TextView
 import com.example.agenda_musical_reto1.utils.MyApp
 
 class MainMenuActivity : BaseActivity() {
@@ -39,7 +40,28 @@ class MainMenuActivity : BaseActivity() {
 
         )
         findViewById<ImageButton>(R.id.image_button_postMalone).setOnClickListener() {
-            val intent = Intent(this, ListSongsActivity::class.java)
+            val intent = Intent(this, PlaylistActivity::class.java)
+            intent.putExtra("artist", findViewById<TextView>(R.id.post_malone_label).text.toString())
+            startActivity(intent)
+            finish()
+        }
+        findViewById<ImageButton>(R.id.image_button_avicii).setOnClickListener() {
+            val intent = Intent(this, PlaylistActivity::class.java)
+            intent.putExtra("artist", findViewById<TextView>(R.id.avicii_label).text.toString())
+
+            startActivity(intent)
+            finish()
+        }
+        findViewById<ImageButton>(R.id.linkin_parl_image_button).setOnClickListener() {
+            val intent = Intent(this, PlaylistActivity::class.java)
+            intent.putExtra("artist", findViewById<TextView>(R.id.linkin_park_label).text.toString())
+
+            startActivity(intent)
+            finish()
+        }
+        findViewById<ImageButton>(R.id.ACDC_image_button).setOnClickListener() {
+            val intent = Intent(this, PlaylistActivity::class.java)
+            intent.putExtra("artist", findViewById<TextView>(R.id.ACDC_label).text.toString())
             startActivity(intent)
             finish()
         }

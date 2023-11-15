@@ -64,20 +64,9 @@ class ListSongsActivity : BaseActivity() {
                 )
             })
         findViewById<EditText>(R.id.songFilter).addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                charSequence: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(
-                charSequence: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchTerm = charSequence.toString()
                 songViewModel.onGetFilteredSongs(searchTerm)
             }
@@ -155,8 +144,7 @@ class ListSongsActivity : BaseActivity() {
                 }
 
                 Resource.Status.ERROR -> {
-                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this, it.message ?: "Error desconocido", Toast.LENGTH_LONG).show()
                     Log.e("ListSongsActivity", "Error al cargar datos: ${it.message}")
                 }
 
@@ -221,11 +209,7 @@ class ListSongsActivity : BaseActivity() {
 
     private fun onLikeClick(song: Song) {
         if (MyApp.userPreferences.getLoggedUser() == null) {
-            Toast.makeText(
-                this,
-                "Debes Iniciar Sesion para añadir canciones a favoritas",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "Debes Iniciar Sesion para añadir canciones a favoritas", Toast.LENGTH_LONG).show()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
